@@ -1,0 +1,11 @@
+tensorflow
+numpy
+scikit-learn
+dvc
+dvc[ssh]
+dvc[hdfs]
+mlflow
+pytest
+pytest-cov
+h5py
+uproot
