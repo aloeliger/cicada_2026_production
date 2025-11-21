@@ -22,8 +22,8 @@ dependencies = [
 ]
 
 [tool.ruff]
-select = ["E", "F", "I", "UP", "B", "TID"]
-ignore = []
+lint.select = ["E", "F", "I", "UP", "B", "TID"]
+lint.ignore = []
 
 [tool.pyright]
 venvPath = "."

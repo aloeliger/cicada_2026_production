@@ -2,6 +2,7 @@ import time
 
 import h5py
 import numpy as np
+import ROOT
 import uproot
 from rich.console import Console
 from rich.live import Live
@@ -54,6 +55,9 @@ def processFiles(
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     # Let's first put together all the files that will go into this
     fileList = utils.buildFileList(filePath)
+    countChain = ROOT.TChain("Event")
+    for fileName in fileList:
+        countChain.Add(fileName)
     fileList = [x + ":Event" for x in fileList]
     branchesToLoad = [
         "run",
@@ -70,6 +74,9 @@ def processFiles(
 
     """Now we uproot iterate through all these files to get the batches.
     When we have a batch, we will process it down into a set of grids"""
+
+    totalEvents = countChain.GetEntries()
+    console.log(f"Total Events: {totalEvents}")
 
     with Live(console=console) as live:
         eventsProcessed = 0
@@ -93,6 +100,7 @@ def processFiles(
                 Processed batches: {processedBatches}
                 Processed events: {eventsProcessed}
                 Elapsed time: {currentTime - startTime:.2g}
+                Percent completed: {eventsProcessed / totalEvents:.2%}
                 """
             )
     allEtGrids = np.concatenate(allEtGrids, axis=0)

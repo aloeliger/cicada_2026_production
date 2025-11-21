@@ -3,6 +3,7 @@ import tempfile
 
 import numpy as np
 import pytest
+import ROOT
 
 import cicada_2026_production.src.trainingFiles as trainingFiles
 
@@ -110,6 +111,8 @@ def test_processFiles(mock_batch, mocker):
         ],
     )
     mocker.patch("utils.buildFileList", return_value=["/tmp/NO_FILE.root"])
+    mocker.patch.object(ROOT.TChain, "Add", return_value=None)
+    mocker.patch.object(ROOT.TChain, "GetEntries", return_value=100)
 
     etGrids, tauBitGrids, egBitGrids = trainingFiles.processFiles(
         "dummy",
