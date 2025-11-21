@@ -1,0 +1,59 @@
+files:
+  dataFiles: /hdfs/store/user/aloeliger/CICADATraining2026/ZeroBias_Operations_Run2025G
+  suepFiles: /hdfs/store/user/aloelige/SUEP/AnomalyDetectionPaper2025_SUEP_User_03Jul2025
+  VBFHToTauTauFiles: /hdfs/store/user/aloelige/VBFHToTauTau_M125_TuneCP5_13p6TeV_powheg-pythia8/AnomalyDetectionPaper2025_VBFHToTauTau_Winter24_05May2025
+  TTFiles: /hdfs/store/user/aloelige/TT_TuneCP5_13p6TeV_powheg-pythia8/AnomalyDetectionPaper2025_TT_Winter24_01May2025
+
+score_name: CICADA2025_CICADAScore
+
+goodRuns:
+- 398027
+- 398040
+- 398081
+- 398104
+- 398144
+- 398183
+- 398188
+- 398189
+- 398203
+- 398204
+- 398208
+- 398227
+- 398240
+- 398288
+- 398293
+- 398308
+- 398310
+- 398315
+- 398335
+- 398337
+- 398348
+- 398365
+- 398368
+- 398391
+- 398395
+- 398396
+- 398149
+- 398458
+- 398459
+- 398515
+- 398517
+- 398539
+- 398540
+- 398541
+- 398547
+- 398548
+- 398549
+- 398558
+- 398593
+- 398600
+- 398647
+- 398648
+- 398650
+- 398680
+- 398802
+- 398827
+- 398828
+- 398860
+
+

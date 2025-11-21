@@ -1,0 +1,32 @@
+[project]
+name="cicada_2026_production"
+version = "0.1.0"
+description = "Make the CICADA 2026 models"
+authors = [{name="Andrew"}]
+dependencies = [
+	     "pytest",
+	     "pytest-cov",
+	     "pytest-mock",
+	     "pre-commit",
+	     "ruff",
+	     "pyright",
+	     "tensorflow",
+	     "numpy",
+	     "scikit-learn",
+	     "dvc",
+	     "dvc[ssh]",
+	     "dvc[hdfs]",
+	     "mlflow",
+	     "h5py",
+	     "uproot",
+]
+
+[tool.ruff]
+select = ["E", "F", "I", "UP", "B", "TID"]
+ignore = []
+
+[tool.pyright]
+venvPath = "."
+venv = "cicada_env"
+ignore = ["build"]
+reportMissingImports = false
