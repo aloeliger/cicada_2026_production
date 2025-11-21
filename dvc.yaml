@@ -1,0 +1,26 @@
+stages:
+  make_training_file:
+    cmd: python3 makeTrainingFile.py
+    deps:
+      - makeTrainingFile.py
+      - src/utils.py
+      - src/trainingFiles.py
+    params:
+      - files
+      - goodRuns
+    outs:
+      - data/dataFiles_output.h5
+      - data/suepFiles_output.h5
+      - data/VBFHToTauTauFiles_output.h5
+      - data/TTFiles_output.h5
+  make_cicada_teacher:
+    cmd: python3 trainCICADA2026Teacher.py
+    deps:
+      - trainCICADA2026Teacher.py
+    params:
+      - alpha
+      - beta
+      - files.dataFiles
+    outs:
+      - data/teacher_model.keras
+      - data/training_log.csv
