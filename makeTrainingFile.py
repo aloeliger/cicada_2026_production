@@ -4,7 +4,7 @@
 import yaml
 from rich.console import Console
 
-from cicada_2026_production.src import trainingFiles
+import cicada_2026_production.src.trainingFiles as trainingFiles
 
 console = Console()
 

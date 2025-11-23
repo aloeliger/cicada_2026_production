@@ -55,10 +55,10 @@ def processFiles(
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     # Let's first put together all the files that will go into this
     fileList = utils.buildFileList(filePath)
-    countChain = ROOT.TChain("Event")
+    countChain = ROOT.TChain("Events")
     for fileName in fileList:
         countChain.Add(fileName)
-    fileList = [x + ":Event" for x in fileList]
+    fileList = [x + ":Events" for x in fileList]
     branchesToLoad = [
         "run",
         "L1_ZeroBias",
