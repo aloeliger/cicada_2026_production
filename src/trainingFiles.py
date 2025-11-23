@@ -1,4 +1,5 @@
 import time
+from typing import Optional
 
 import h5py
 import numpy as np
@@ -50,8 +51,7 @@ def processBatch(batch) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
 
 
 def processFiles(
-    fileType: str,
-    filePath: str,
+    fileType: str, filePath: str, limitInputs: Optional[int] = None
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     # Let's first put together all the files that will go into this
     fileList = utils.buildFileList(filePath)
@@ -75,7 +75,10 @@ def processFiles(
     """Now we uproot iterate through all these files to get the batches.
     When we have a batch, we will process it down into a set of grids"""
 
-    totalEvents = countChain.GetEntries()
+    if limitInputs is None:
+        totalEvents = countChain.GetEntries()
+    else:
+        totalEvents = min(countChain.GetEntries(), limitInputs)
     console.log(f"Total Events: {totalEvents}")
 
     with Live(console=console) as live:
@@ -88,6 +91,8 @@ def processFiles(
         for batch in uproot.iterate(
             fileList, filter_name=usedBranches, step_size="1 GB"
         ):
+            if eventsProcessed >= totalEvents:
+                break
             etGrids, tauBitGrids, egBitGrids = processBatch(batch)
             allEtGrids.append(etGrids)
             allTauBitGrids.append(tauBitGrids)

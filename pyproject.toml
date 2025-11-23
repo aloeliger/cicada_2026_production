@@ -23,7 +23,8 @@ dependencies = [
 
 [tool.ruff]
 lint.select = ["E", "F", "I", "UP", "B", "TID"]
-lint.ignore = []
+lint.ignore = ["UP007"]
+target-version = "py39"
 
 [tool.pyright]
 venvPath = "."
