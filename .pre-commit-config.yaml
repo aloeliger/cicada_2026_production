@@ -6,10 +6,12 @@ repos:
     hooks:
       - id: pytest
         name: pytest
-        entry: pytest test
+        entry: pytest test/
         language: system
         types: [python]
         args: ["--cov=src"]
+        pass_filenames: false
+        always_run: True
 
   #
   # Run the ruff linter + code-fixes
