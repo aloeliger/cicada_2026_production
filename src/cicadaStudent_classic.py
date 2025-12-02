@@ -215,4 +215,4 @@ def trainStudentModel(model, caloRegions, targets, weights=None):
     )
 
     console.log("Evaluation")
-    model.evaluate(test_caloRegions, val_caloRegions, sample_weight=test_weights)
+    model.evaluate(test_caloRegions, test_caloRegions, sample_weight=test_weights)
