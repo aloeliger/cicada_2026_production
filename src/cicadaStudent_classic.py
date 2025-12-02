@@ -106,7 +106,7 @@ def makeTargets(teacher, caloRegions, taubit, egbit):
         axis=(1, 2, 3),
     )
 
-    loss = np.log(32.0 * loss)
+    loss = np.clip(np.log(32.0 * loss), a_min=0.0, a_max=256.0)
     # print(loss)
     # print(loss.shape)
 
