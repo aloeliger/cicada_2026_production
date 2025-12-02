@@ -89,7 +89,16 @@ def getModel(inputShape):
         name="dense2",
     )(drop_2)
     outputs = qkeras.QActivation("quantized_relu(16, 8)", name="outputs")(dense_1)
-    return keras.Model(inputs, outputs, name="cicada-v2")
+
+    model = keras.Model(inputs, outputs, name="cicada-v2")
+    model.compile(
+        optimizer="nadam",
+        loss="mse",
+        metrics=[
+            "mae",
+        ],
+    )
+    return model
 
 
 def makeTargets(teacher, caloRegions, taubit, egbit):
