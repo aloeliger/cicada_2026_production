@@ -10,7 +10,7 @@ dependencies = [
 	     "pre-commit",
 	     "ruff",
 	     "pyright",
-	     "tensorflow",
+	     "tensorflow[and-cuda]",
 	     "numpy",
 	     "scikit-learn",
 	     "dvc",
@@ -19,6 +19,8 @@ dependencies = [
 	     "mlflow",
 	     "h5py",
 	     "uproot",
+	     "qkeras @ git+https://github.com/julesmuhizi/qkeras.git@qdense_batchnorm",
+	     "hls4ml @ git+https://github.com/AdrianAlan/hls4ml.git@cicada",
 ]
 
 [tool.ruff]

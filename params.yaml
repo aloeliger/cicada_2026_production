@@ -60,3 +60,9 @@ limitInputs: 10000000
 
 alpha: 1.0
 beta: 1.0
+cicadaStudentCommon:
+  fileList: [
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo.h5,
+  ]
+cicadaStudentClassic:
+  teacherModel: data/only_energy_teacher
