@@ -84,7 +84,6 @@ cicadaStudentCommon:
   /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-602980f2-88ff-4528-b2e4-9b66e3e00fbe.h5,
   /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-602cc105-2ac5-47a9-800c-3b23d2f2d8df.h5,
   /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-602fd288-c57b-4ee0-bb04-08e9ba97bf7b.h5,
-  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-b46549d1-f286-45af-ad24-16d2faad4b3c.h5,
   ]
 cicadaStudentClassic:
   teacherModel: data/only_energy_teacher

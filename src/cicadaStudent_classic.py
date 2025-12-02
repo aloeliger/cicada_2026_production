@@ -20,35 +20,38 @@ def getInputs(params):
         npvs_good = np.array(theFile["PV_npvsGood"])
 
     for fileName in track(listOfFiles[1:], console=console):
-        # console.log(fileName)
-        with h5py.File(fileName, "r") as theFile:
-            caloRegions = np.concatenate(
-                [
-                    caloRegions,
-                    np.array(theFile["CaloRegions"]["et"]),
-                ],
-                axis=0,
-            )
-            taubit = np.concatenate(
-                [
-                    taubit,
-                    np.array(theFile["CaloRegions"]["taubit"]),
-                ],
-                axis=0,
-            )
-            egbit = np.concatenate(
-                [egbit, np.array(theFile["CaloRegions"]["egbit"])], axis=0
-            )
-            npvs = np.concatenate(
-                [
-                    npvs,
-                    np.array(theFile["PV_npvs"]),
-                ],
-                axis=0,
-            )
-            npvs_good = np.concatenate(
-                [npvs_good, np.array(theFile["PV_npvsGood"])], axis=0
-            )
+        console.log(fileName)
+        try:
+            with h5py.File(fileName, "r") as theFile:
+                caloRegions = np.concatenate(
+                    [
+                        caloRegions,
+                        np.array(theFile["CaloRegions"]["et"]),
+                    ],
+                    axis=0,
+                )
+                taubit = np.concatenate(
+                    [
+                        taubit,
+                        np.array(theFile["CaloRegions"]["taubit"]),
+                    ],
+                    axis=0,
+                )
+                egbit = np.concatenate(
+                    [egbit, np.array(theFile["CaloRegions"]["egbit"])], axis=0
+                )
+                npvs = np.concatenate(
+                    [
+                        npvs,
+                        np.array(theFile["PV_npvs"]),
+                    ],
+                    axis=0,
+                )
+                npvs_good = np.concatenate(
+                    [npvs_good, np.array(theFile["PV_npvsGood"])], axis=0
+                )
+        except OSError:
+            console.log(f"[red]Warning, failed to process file: {fileName}[/red]")
     return caloRegions, taubit, egbit, npvs, npvs_good
 
 
