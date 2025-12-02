@@ -21,12 +21,14 @@ def main(params):
     )
     student_model = cicadaStudent_classic.getModel(caloRegions.shape[1:])
 
+    console.log("Making targets and weights")
     targets = cicadaStudent_classic.makeTargets(
         teacher_model, caloRegions, taubit, egbit
     )
 
     weights = cicadaStudent_classic.makeScoreWeights(targets)
 
+    console.log("Training student model")
     cicadaStudent_classic.trainStudentModel(
         student_model,
         caloRegions,

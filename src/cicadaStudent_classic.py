@@ -106,7 +106,7 @@ def makeTargets(teacher, caloRegions, taubit, egbit):
         axis=(1, 2, 3),
     )
 
-    loss = 32.0 * np.log(loss)
+    loss = np.log(32.0 * loss)
     # print(loss)
     # print(loss.shape)
 

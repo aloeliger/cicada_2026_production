@@ -61,7 +61,7 @@ def testMakeTargets(mocker):
     targets = np.array(targets)
     assert targets.shape[0] == 10
     assert np.all(targets != 0)
-    assert targets[0] == 32.0 * np.log(0.5**2)
+    assert targets[0] == np.log(32.0 * (0.5) ** 2)
 
 
 def testMakeScoreWeights(mocker):
