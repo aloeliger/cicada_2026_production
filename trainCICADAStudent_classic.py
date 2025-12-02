@@ -12,7 +12,7 @@ def main(params):
         params
     )
 
-    # console.log(caloRegions.shape)
+    console.log(f"Calo regions shape: {caloRegions.shape}")
     # console.log(taubit.shape)
     # console.log(egbit.shape)
 

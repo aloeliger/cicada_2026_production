@@ -45,11 +45,11 @@ def testGetModel():
 
 def testMakeTargets(mocker):
     mockTeacher = mocker.Mock()
-    caloRegions = np.array([[1.0, 2.0, 3.0]])
-    tauBit = np.array([[0, 1, 0]])
-    egBit = np.array([[1, 0, 0]])
+    caloRegions = np.ones((10, 18, 14))
+    tauBit = np.zeros((10, 18, 14))
+    egBit = np.ones((10, 18, 14))
 
-    mockTeacher.predict.return_value = np.array([[1.0, 2.0, 2.0]])
+    mockTeacher.predict.return_value = 0.5 * caloRegions.reshape((-1, 18, 14, 1))
 
     targets = cicadaStudent_classic.makeTargets(
         mockTeacher,
@@ -59,7 +59,9 @@ def testMakeTargets(mocker):
     )
 
     targets = np.array(targets)
-    assert targets == 32.0 * np.log(1 / 3)
+    assert targets.shape[0] == 10
+    assert np.all(targets != 0)
+    assert targets[0] == 32.0 * np.log(0.5**2)
 
 
 def testMakeScoreWeights(mocker):

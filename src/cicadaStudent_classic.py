@@ -94,15 +94,21 @@ def getModel(inputShape):
 
 def makeTargets(teacher, caloRegions, taubit, egbit):
     # print(caloRegions)
-    teacherPredictions = teacher.predict(caloRegions)
+    teacherPredictions = np.array(teacher.predict(caloRegions))
     # print(teacherPredictions)
 
-    lossFn = keras.losses.MeanSquaredError()
-    loss = lossFn(caloRegions, teacherPredictions)
-    # print(loss)
+    loss = np.mean(
+        (
+            np.array(caloRegions).reshape((-1, 18, 14, 1))
+            - np.array(teacherPredictions).reshape((-1, 18, 14, 1))
+        )
+        ** 2,
+        axis=(1, 2, 3),
+    )
 
-    loss = np.array(loss)
     loss = 32.0 * np.log(loss)
+    # print(loss)
+    # print(loss.shape)
 
     return loss
 
