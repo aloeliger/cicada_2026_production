@@ -94,7 +94,7 @@ def getModel(inputShape):
     model.compile(
         optimizer="nadam",
         loss="mse",
-        metrics=[
+        weighted_metrics=[
             "mae",
         ],
     )
@@ -115,7 +115,8 @@ def makeTargets(teacher, caloRegions, taubit, egbit):
         axis=(1, 2, 3),
     )
 
-    loss = np.clip(np.log(32.0 * loss), a_min=0.0, a_max=256.0)
+    # print(loss)
+    loss = np.clip(32.0 * np.log(loss), a_min=0.0, a_max=256.0)
     # print(loss)
     # print(loss.shape)
 
@@ -125,10 +126,17 @@ def makeTargets(teacher, caloRegions, taubit, egbit):
 def makeScoreWeights(targets):
     scoreHistogram, binEdges = np.histogram(
         targets,
-        bins=50,
+        bins=100,
         density=True,
         range=(np.min(targets) - 0.1, np.max(targets) + 0.1),
     )
+    # scoreHistogram = scoreHistogram + 1e-12
+
+    # choose bin edges and bins such that we always have _something_
+    # in that bin
+    binEdges = binEdges[:-1][scoreHistogram > 0]
+    scoreHistogram = scoreHistogram[scoreHistogram > 0]
+
     reweightHistogram = 1.0 / scoreHistogram
     reweightHistogram = reweightHistogram / np.mean(reweightHistogram)
     reweightHistogram = np.clip(reweightHistogram, a_min=None, a_max=20.0)
@@ -136,6 +144,13 @@ def makeScoreWeights(targets):
     targetWeightBins = np.digitize(targets, binEdges)
     targetWeightBins = targetWeightBins - 1
     targetWeights = reweightHistogram[targetWeightBins]
+
+    console.log("Score histogram")
+    console.log(scoreHistogram)
+    console.log("Weighting histogram")
+    console.log(reweightHistogram)
+    console.log("Bin edges")
+    console.log(binEdges)
 
     return targetWeights
 
@@ -196,6 +211,7 @@ def trainStudentModel(model, caloRegions, targets, weights=None):
             keras.callbacks.CSVLogger("data/logs/classic_student_log.csv"),
         ],
         sample_weight=train_weights,
+        batch_size=128,
     )
 
     console.log("Evaluation")
