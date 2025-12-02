@@ -12,12 +12,14 @@ console = Console()
 
 def getInputs(params):
     listOfFiles = params["cicadaStudentCommon"]["fileList"]
-    caloRegions = np.array([])
-    taubit = np.array([])
-    egbit = np.array([])
-    npvs = np.array([])
-    npvs_good = np.array([])
-    for fileName in track(listOfFiles, console=console):
+    with h5py.File(listOfFiles[0]) as theFile:
+        caloRegions = np.array(theFile["CaloRegions"]["et"])
+        taubit = np.array(theFile["CaloRegions"]["taubit"])
+        egbit = np.array(theFile["CaloRegions"]["egbit"])
+        npvs = np.array(theFile["PV_npvs"])
+        npvs_good = np.array(theFile["PV_npvsGood"])
+
+    for fileName in track(listOfFiles[1:], console=console):
         # console.log(fileName)
         with h5py.File(fileName, "r") as theFile:
             caloRegions = np.concatenate(

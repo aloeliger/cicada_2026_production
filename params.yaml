@@ -62,7 +62,31 @@ alpha: 1.0
 beta: 1.0
 cicadaStudentCommon:
   fileList: [
-  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5f9138c0-ad0a-41f6-837f-707b4ac8d89a.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5f9bbf38-4f31-48de-97fc-1d958e74bfe4.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5fb25677-4b05-4ea8-850d-66a2aac90d4a.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5fbe3043-a507-44ce-a434-36fcdcc15458.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5fbfc81e-0829-4d57-ba9d-a6af795a2383.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5fc5a836-fafa-4a4b-81e5-a8664325b8c5.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5fcb3a6d-e4d3-4d11-821e-813c6a54b0cb.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5fd37f2b-c003-4a80-bb41-f38610aaffe4.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5fd46c7f-6729-4a61-8c11-0f0fe8473460.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5fd67d3d-81c4-4563-8708-55a1dffc10a6.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5fdbae2f-999a-467c-8891-2ee4dcd0e980.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5fe4e7a6-4d62-4f67-9ed2-de3be7d68e28.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5fe59eb4-8fa0-4324-900a-dd71ae852fa2.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5ff45e9f-5a1a-4e30-8cb6-b7e53a5634fe.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5ffed69b-a44e-443a-b1d7-b5c8dd8a9e25.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-6006b5d1-9ba0-4235-92e5-8c09ac5468fd.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-600d5756-0630-458d-adaf-ef3441cf7f8b.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-6018928c-b1f7-46e6-9960-ed2f565d3b92.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-60257a96-38d7-45df-982f-028548ab4e52.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-602980f2-88ff-4528-b2e4-9b66e3e00fbe.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-602cc105-2ac5-47a9-800c-3b23d2f2d8df.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-602fd288-c57b-4ee0-bb04-08e9ba97bf7b.h5,
+  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-b46549d1-f286-45af-ad24-16d2faad4b3c.h5,
   ]
 cicadaStudentClassic:
   teacherModel: data/only_energy_teacher
+cicadaStudentVAE3Channel:
+  teacherModel: data/three_channel_teacher/
