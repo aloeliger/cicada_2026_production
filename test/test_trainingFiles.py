@@ -64,6 +64,53 @@ def test_reshapeInput(etInput, iphi, ieta):
     assert reshapedInput[0, 0, 2] == 8
 
 
+def test_reshapeInput_2D():
+    test_regions = np.arange(252).reshape(1, -1)
+    test_phi = test_regions // 14
+    test_ieta = test_regions % 14
+
+    test_regions = np.tile(test_regions, (100, 1))
+    test_phi = np.tile(test_phi, (100, 1))
+    test_ieta = np.tile(test_ieta, (100, 1))
+
+    expected_output = test_regions.reshape((-1, 18, 14))
+
+    print(test_regions[0].reshape((18, 14)))
+    print(test_regions[0].shape)
+    print(test_phi[0].reshape((18, 14)))
+    print(test_ieta[0].reshape((18, 14)))
+
+    nprng = np.random.default_rng(42)
+
+    stacked_input = np.stack([test_regions, test_phi, test_ieta], axis=2)
+    nprng.shuffle(stacked_input, axis=1)
+    test_regions = stacked_input[:, :, 0]
+    test_phi = stacked_input[:, :, 1]
+    test_ieta = stacked_input[:, :, 2]
+
+    # nprng.shuffle(test_regions, axis=1)
+    # nprng.shuffle(test_phi, axis=1)
+    # nprng.shuffle(test_ieta, axis=1)
+
+    reshaped_input = trainingFiles.reshapeInput(
+        test_regions,
+        test_ieta,
+        test_phi,
+    )
+
+    print(test_regions[0].reshape((18, 14)))
+    print(test_regions[0].shape)
+    print(test_phi[0].reshape((18, 14)))
+    print(test_ieta[0].reshape((18, 14)))
+
+    print(reshaped_input[0])
+    print(reshaped_input[0].shape)
+    print(expected_output[0])
+    print(expected_output[0].shape)
+
+    assert np.array_equal(reshaped_input, expected_output)
+
+
 def test_processBatch(mock_batch):
     reshapedEts, reshapedTauBits, reshapedEGBits = trainingFiles.processBatch(
         mock_batch

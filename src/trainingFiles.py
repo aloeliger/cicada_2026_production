@@ -20,7 +20,7 @@ def reshapeInput(
     total_iphi: int = 18,
     total_ieta: int = 14,
 ) -> np.ndarray:
-    rows = np.arange(len(inputs))[:None]
+    rows = np.arange(len(inputs))[:, None]
     reshapedInput = np.zeros(shape=(len(inputs), total_iphi, total_ieta))
     reshapedInput[rows, iphi, ieta] = inputs
     return reshapedInput
