@@ -56,7 +56,7 @@ goodRuns:
 - 398828
 - 398860
 
-limitInputs: 10000000
+limitInputs: 5000000
 
 alpha: 1.0
 beta: 1.0
