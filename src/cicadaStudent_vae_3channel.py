@@ -70,7 +70,7 @@ def makeTargets(teacher_model, caloRegions, tauBits, egBits):
     lossFn = teacher_model.loss
     loss = np.array(lossFn(inputs, teacherPredictions))
 
-    adjustedLoss = 32.0 * np.log(loss)
+    adjustedLoss = np.clip(32.0 * np.log(loss), a_min=0.0, a_max=256.0)
 
     return adjustedLoss
 
