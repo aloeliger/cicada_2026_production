@@ -15,6 +15,7 @@ def main(params):
         etGrids, tauGrids, egGrids = trainingFiles.processFiles(
             fileType=fileType,
             filePath=params["files"][fileType],
+            limitInputs=params["limitInputs"],
         )
 
         trainingFiles.saveGrids(
