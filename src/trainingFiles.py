@@ -66,7 +66,7 @@ def processFiles(
         "Regions_egbit",
         "Regions_iphi",
         "Regions_ieta",
-        "Regions_ieta",
+        "Regions_et",
     ]
 
     def usedBranches(x):
