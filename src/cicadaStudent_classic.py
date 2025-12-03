@@ -206,7 +206,7 @@ def trainStudentModel(model, caloRegions, targets, weights=None):
             keras.callbacks.ModelCheckpoint(
                 "data/cicadaStudent_classic", save_best_only=True
             ),
-            keras.callbacks.EarlyStopping(patience=30),
+            keras.callbacks.EarlyStopping(patience=30, restore_best_weights=True),
             keras.callbacks.ReduceLROnPlateau(patience=10),
             keras.callbacks.CSVLogger("data/logs/classic_student_log.csv"),
         ],
