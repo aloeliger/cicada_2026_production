@@ -43,6 +43,7 @@ stages:
     cmd: python3 trainCICADAStudent_vae_3channel.py
     deps:
       - src/cicadaStudent_vae_3channel.py
+      - src/cicadaStudent_classic.py
       - trainCICADAStudent_vae_3channel.py
     params:
       - cicadaStudentVAE3Channel
