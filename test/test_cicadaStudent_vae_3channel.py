@@ -2,6 +2,7 @@
 
 import numpy as np
 import pytest
+from tensorflow.keras.losses import MeanSquaredError
 
 import cicada_2026_production.src.cicadaStudent_vae_3channel as cicada_3channel
 
@@ -54,8 +55,17 @@ def test_hybrid_bce_dice_loss():
 
 def test_makeTargets(mocker):
     mockTeacher = mocker.Mock()
-    mockTeacher.predict.return_value = np.zeros((10, 18, 14, 3))
-    mockTeacher.loss = cicada_3channel.hybrid_bce_dice_loss
+    mockTeacher.predict.return_value = [
+        np.zeros((10, 18, 14, 1)),
+        np.zeros((10, 18, 14, 1)),
+        np.zeros((10, 18, 14, 1)),
+    ]
+    # mockTeacher.loss = cicada_3channel.hybrid_bce_dice_loss
+    mockTeacher.loss = {
+        "output_energy": MeanSquaredError(reduction="none"),
+        "output_tau": cicada_3channel.hybrid_bce_dice_loss,
+        "output_egamma": cicada_3channel.hybrid_bce_dice_loss,
+    }
 
     ones = np.ones((10, 18, 14, 1))
     _ = cicada_3channel.makeTargets(mockTeacher, ones, ones, ones)

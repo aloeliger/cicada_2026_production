@@ -123,7 +123,7 @@ def makeTargets(teacher, caloRegions, taubit, egbit):
     return loss
 
 
-def makeScoreWeights(targets):
+def makeScoreWeights(targets, outputFile):
     scoreHistogram, binEdges = np.histogram(
         targets,
         bins=100,
@@ -151,6 +151,11 @@ def makeScoreWeights(targets):
     console.log(reweightHistogram)
     console.log("Bin edges")
     console.log(binEdges)
+
+    with h5py.File(outputFile, "w") as theFile:
+        theFile.create_dataset("scoreHistogram", data=scoreHistogram)
+        theFile.create_dataset("weightHistogram", data=reweightHistogram)
+        theFile.create_dataset("binEdges", data=binEdges)
 
     return targetWeights
 

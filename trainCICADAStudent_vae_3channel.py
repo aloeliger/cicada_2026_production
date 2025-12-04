@@ -33,7 +33,9 @@ def main(params):
         egbit,
     )
 
-    weights = cicadaStudent_classic.makeScoreWeights(targets)
+    weights = cicadaStudent_classic.makeScoreWeights(
+        targets, params["cicadaStudentVAE3Channel"]["scoreHistogramOutput"]
+    )
 
     console.log("Training student model")
     cicada_3channel.trainStudentModel(

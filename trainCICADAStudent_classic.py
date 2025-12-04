@@ -26,7 +26,9 @@ def main(params):
         teacher_model, caloRegions, taubit, egbit
     )
 
-    weights = cicadaStudent_classic.makeScoreWeights(targets)
+    weights = cicadaStudent_classic.makeScoreWeights(
+        targets, params["cicadaStudentClassic"]["scoreHistogramOutput"]
+    )
 
     console.log("Training student model")
     cicadaStudent_classic.trainStudentModel(

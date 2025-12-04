@@ -66,9 +66,32 @@ def makeTargets(teacher_model, caloRegions, tauBits, egBits):
         axis=3,
     )
 
+    console.log("Making predictions")
+
     teacherPredictions = teacher_model.predict(inputs)
     lossFn = teacher_model.loss
-    loss = np.array(lossFn(inputs, teacherPredictions))
+
+    energy_outputs = teacherPredictions[0]
+    tau_ouputs = teacherPredictions[1]
+    eg_outputs = teacherPredictions[2]
+
+    energy_lossFn = lossFn["output_energy"]
+    tau_lossFn = lossFn["output_tau"]
+    eg_lossFn = lossFn["output_egamma"]
+
+    # loss = np.array(lossFn(inputs, teacherPredictions))
+
+    console.log("Making individual losses")
+    energy_loss = np.mean(
+        np.array(energy_lossFn(inputs[..., 0:1], energy_outputs)), axis=(1, 2)
+    )
+    tau_loss = np.array(tau_lossFn(inputs[..., 1:2], tau_ouputs))
+    eg_loss = np.array(eg_lossFn(inputs[..., 2:3], eg_outputs))
+    console.print(energy_loss.shape)
+    console.print(tau_loss.shape)
+    console.print(eg_loss.shape)
+    console.log("Making final loss and adjustment")
+    loss = 0.5 * energy_loss + tau_loss + eg_loss
 
     adjustedLoss = np.clip(32.0 * np.log(loss), a_min=0.0, a_max=256.0)
 

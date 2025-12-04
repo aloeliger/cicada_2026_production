@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import os
+import tempfile
 from unittest.mock import MagicMock
 
 import numpy as np
@@ -68,7 +70,11 @@ def testMakeScoreWeights(mocker):
     targets = np.arange(100)
     targets[3] = targets[4]
 
-    targetWeights = cicadaStudent_classic.makeScoreWeights(targets)
+    with tempfile.TemporaryDirectory() as tempdir:
+        targetWeights = cicadaStudent_classic.makeScoreWeights(
+            targets, tempdir + "/tempfile.h5"
+        )
+        assert os.listdir(tempdir)
     assert targetWeights[0] > targetWeights[3]
 
 
