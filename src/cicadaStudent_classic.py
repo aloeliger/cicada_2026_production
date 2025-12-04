@@ -106,7 +106,7 @@ def getModel(inputShape):
 
 def makeTargets(teacher, caloRegions, taubit, egbit):
     # print(caloRegions)
-    teacherPredictions = np.array(teacher.predict(caloRegions))
+    teacherPredictions = np.array(teacher.predict(caloRegions.reshape((-1, 18, 14, 1))))
     # print(teacherPredictions)
 
     loss = np.mean(
