@@ -21,6 +21,7 @@ dependencies = [
 	     "uproot",
 	     "qkeras @ git+https://github.com/julesmuhizi/qkeras.git@qdense_batchnorm",
 	     "hls4ml @ git+https://github.com/AdrianAlan/hls4ml.git@cicada",
+	     "mplhep",
 ]
 
 [tool.ruff]
