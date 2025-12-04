@@ -25,3 +25,8 @@ def testBuildFileList(mocker):
         f"{hdfs_path}/Operations_ZeroBias_Run2025C_Run392991_05Jun2025/file2.root",
         f"{hdfs_path}/Operations_ZeroBias_Run2025C_Run392991_05Jun2025/file3.root",
     ]
+
+
+def test_convert_eff_to_rate():
+    assert utils.convert_eff_to_rate(0.0) == 0.0
+    assert utils.convert_eff_to_rate(1.0) >= 2e4
