@@ -14,12 +14,12 @@ def test_getInputs(mocker):
 
     mockData = {
         "CaloRegions": {
-            "et": [1, 2, 3],
-            "taubit": [0, 1, 0],
-            "egbit": [1, 0, 0],
+            "et": np.ones((10, 252)),
+            "taubit": np.ones((10, 252)),
+            "egbit": np.ones((10, 252)),
         },
-        "PV_npvs": [10, 20, 30],
-        "PV_npvsGood": [4, 5, 6],
+        "PV_npvs": np.ones((10, 252)),
+        "PV_npvsGood": np.ones((10, 252)),
     }
 
     fileEnterReturn = MagicMock()
