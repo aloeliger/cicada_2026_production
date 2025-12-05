@@ -81,21 +81,16 @@ def makeTargets(teacher_model, caloRegions, tauBits, egBits):
 
     # loss = np.array(lossFn(inputs, teacherPredictions))
 
+    # teacher_model.summary()
+
     console.log("Making individual losses")
     energy_loss = np.mean(
         np.array(energy_lossFn(inputs[..., 0:1], energy_outputs)), axis=(1, 2)
     )
     tau_loss = np.array(tau_lossFn(inputs[..., 1:2], tau_ouputs))
     eg_loss = np.array(eg_lossFn(inputs[..., 2:3], eg_outputs))
-    console.print(energy_loss.shape)
-    console.print(tau_loss.shape)
-    console.print(eg_loss.shape)
     console.log("Making final loss and adjustment")
     loss = 0.5 * energy_loss + tau_loss + eg_loss
-    console.print(f"{np.mean(energy_loss):.5g}, {np.std(energy_loss):.5g}")
-    console.print(f"{np.mean(loss):.5g}, {np.std(loss):.5g}")
-    console.print(f"{np.mean(tau_loss):.5g}, {np.std(tau_loss):.5g}")
-    console.print(f"{np.mean(eg_loss):.5g}, {np.std(eg_loss):.5g}")
 
     console.print("Any losses less than 0?")
     console.print(np.any(loss < 0))
@@ -116,9 +111,6 @@ def makeTargets(teacher_model, caloRegions, tauBits, egBits):
 
     console.print(np.any(np.isinf(energy_loss)))
     console.print(np.where(np.isinf(energy_loss)))
-    indices = np.where(np.isinf(energy_loss))
-    console.print(inputs[indices[0]])
-    console.print(energy_outputs[0])
 
     console.print(np.any(np.isinf(tau_loss)))
     console.print(np.where(np.isinf(tau_loss)))
