@@ -92,32 +92,50 @@ def makeTargets(teacher_model, caloRegions, tauBits, egBits):
     console.print(eg_loss.shape)
     console.log("Making final loss and adjustment")
     loss = 0.5 * energy_loss + tau_loss + eg_loss
+    console.print(f"{np.mean(energy_loss):.5g}, {np.std(energy_loss):.5g}")
+    console.print(f"{np.mean(loss):.5g}, {np.std(loss):.5g}")
+    console.print(f"{np.mean(tau_loss):.5g}, {np.std(tau_loss):.5g}")
+    console.print(f"{np.mean(eg_loss):.5g}, {np.std(eg_loss):.5g}")
 
     console.print("Any losses less than 0?")
     console.print(np.any(loss < 0))
     console.print(np.where(loss < 0))
+
     console.print(np.any(energy_loss < 0))
     console.print(np.where(energy_loss < 0))
+
     console.print(np.any(tau_loss < 0))
     console.print(np.where(tau_loss < 0))
+
     console.print(np.any(eg_loss < 0))
     console.print(np.where(eg_loss < 0))
+
     console.print("Any losses are inf?")
     console.print(np.any(np.isinf(loss)))
     console.print(np.where(np.isinf(loss)))
+
     console.print(np.any(np.isinf(energy_loss)))
     console.print(np.where(np.isinf(energy_loss)))
+    indices = np.where(np.isinf(energy_loss))
+    console.print(inputs[indices[0]])
+    console.print(energy_outputs[0])
+
     console.print(np.any(np.isinf(tau_loss)))
     console.print(np.where(np.isinf(tau_loss)))
+
     console.print(np.any(np.isinf(eg_loss)))
     console.print(np.where(np.isinf(eg_loss)))
+
     console.print("Any losses are NaN?")
     console.print(np.any(np.isnan(loss)))
     console.print(np.where(np.isnan(loss)))
+
     console.print(np.any(np.isnan(energy_loss)))
     console.print(np.where(np.isnan(energy_loss)))
+
     console.print(np.any(np.isnan(tau_loss)))
     console.print(np.where(np.isnan(tau_loss)))
+
     console.print(np.any(np.isnan(eg_loss)))
     console.print(np.where(np.isnan(eg_loss)))
 
