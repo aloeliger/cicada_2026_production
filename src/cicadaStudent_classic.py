@@ -53,8 +53,8 @@ def getInputs(params, sampleList="fileList"):
         except OSError:
             console.log(f"[red]Warning, failed to process file: {fileName}[/red]")
     caloRegions = caloRegions.reshape((-1, 252))
-    taubit = caloRegions.reshape((-1, 252))
-    egbit = caloRegions.reshape((-1, 252))
+    taubit = taubit.reshape((-1, 252))
+    egbit = egbit.reshape((-1, 252))
     return caloRegions, taubit, egbit, npvs, npvs_good
 
 

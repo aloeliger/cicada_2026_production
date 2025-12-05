@@ -15,8 +15,8 @@ def test_getInputs(mocker):
     mockData = {
         "CaloRegions": {
             "et": np.ones((10, 252)),
-            "taubit": np.ones((10, 252)),
-            "egbit": np.ones((10, 252)),
+            "taubit": np.ones((10, 252)) * 2,
+            "egbit": np.ones((10, 252)) * 3,
         },
         "PV_npvs": np.ones((10, 252)),
         "PV_npvsGood": np.ones((10, 252)),
@@ -39,6 +39,10 @@ def test_getInputs(mocker):
     assert np.array_equal(egbit, np.array(mockData["CaloRegions"]["egbit"]))
     assert np.array_equal(npvs, np.array(mockData["PV_npvs"]))
     assert np.array_equal(npvs_good, np.array(mockData["PV_npvsGood"]))
+
+    assert not np.array_equal(taubit, caloRegions)
+    assert not (np.array_equal(egbit, caloRegions))
+    assert not (np.array_equal(taubit, egbit))
 
 
 def testGetModel():
