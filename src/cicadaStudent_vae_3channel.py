@@ -93,7 +93,14 @@ def makeTargets(teacher_model, caloRegions, tauBits, egBits):
     console.log("Making final loss and adjustment")
     loss = 0.5 * energy_loss + tau_loss + eg_loss
 
-    adjustedLoss = np.clip(32.0 * np.log(loss + 1e-12), a_min=0.0, a_max=256.0)
+    console.print("Any losses less than 0?")
+    console.print(np.any(loss < 0))
+    console.print("Any losses are inf?")
+    console.print(np.any(np.isinf(loss)))
+    console.print("Any losses are NaN?")
+    console.print(np.any(np.isnan(loss)))
+
+    adjustedLoss = np.clip(32.0 * np.log(loss), a_min=0.0, a_max=256.0)
 
     return adjustedLoss
 
