@@ -11,7 +11,7 @@ console = Console()
 
 
 def getInputs(params, sampleList="fileList"):
-    listOfFiles = params["cicadaStudentCommon"]["fileList"]
+    listOfFiles = params["cicadaStudentCommon"][sampleList]
     with h5py.File(listOfFiles[0]) as theFile:
         caloRegions = np.array(theFile["CaloRegions"]["et"])
         taubit = np.array(theFile["CaloRegions"]["taubit"])
