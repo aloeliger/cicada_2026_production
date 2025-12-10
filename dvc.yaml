@@ -56,9 +56,21 @@ stages:
   evaluate_classic_student:
     cmd: python3 studentEvaluation_classic.py
     deps:
-      - src/evaluatestudent_classic.py
+      - src/evaluateStudent_classic.py
       - src/utils.py
       - src/cicadaStudent_classic.py
       - studentEvaluation_classic.py
+      - data/cicadaStudent_classic
     params:
       - cicadaStudentClassic
+
+  evaluate_vae_student:
+    cmd: python3 studentEvaluation_3channel_vae.py
+    deps:
+      - src/cicadaStudent_classic.py
+      - src/cicadaStudent_vae_3channel.py
+      - src/utils.py
+      - studentEvaluation_3channel_vae.py
+      - data/3channel_vae_student
+    params:
+      - cicadaStudentVAE3Channel
