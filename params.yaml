@@ -263,8 +263,7 @@ cicadaStudentCommon:
   /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-602fd288-c57b-4ee0-bb04-08e9ba97bf7b.h5,
   /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-b46549d1-f286-45af-ad24-16d2faad4b3c.h5,
   ]
-  single_W_list:[
-  /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/singleW/h5/singleW_withPUinfo_files/l1nano_AD-singleW_DIGI_L1_DIGI2RAW_HLT_PU_run3Summer24_farmout-singleW_run3_lhegensim-0000.h5,
+  single_W_list: [/hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/singleW/h5/singleW_withPUinfo_files/l1nano_AD-singleW_DIGI_L1_DIGI2RAW_HLT_PU_run3Summer24_farmout-singleW_run3_lhegensim-0000.h5,
   /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/singleW/h5/singleW_withPUinfo_files/l1nano_AD-singleW_DIGI_L1_DIGI2RAW_HLT_PU_run3Summer24_farmout-singleW_run3_lhegensim-0001.h5,
   /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/singleW/h5/singleW_withPUinfo_files/l1nano_AD-singleW_DIGI_L1_DIGI2RAW_HLT_PU_run3Summer24_farmout-singleW_run3_lhegensim-0002.h5,
   /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/singleW/h5/singleW_withPUinfo_files/l1nano_AD-singleW_DIGI_L1_DIGI2RAW_HLT_PU_run3Summer24_farmout-singleW_run3_lhegensim-0003.h5,
