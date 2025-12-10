@@ -266,6 +266,8 @@ cicadaStudentCommon:
 cicadaStudentClassic:
   teacherModel: data/only_energy_teacher
   scoreHistogramOutput: data/classicScoreHisto.h5
+  ROCPlot: data/classicStudent_ROCPlot.png
 cicadaStudentVAE3Channel:
   teacherModel: data/three_channel_teacher/
   scoreHistogramOutput: data/3channelScoreHisto.h5
+  ROCPlot: data/VAEStudent_ROCPlot.png
