@@ -205,6 +205,7 @@ def trainStudentModel(model, caloRegions, targets, weights=None):
             random_state=123,
         )
 
+    keras.utils.set_random_seed(123)
     model.fit(
         train_caloRegions,
         train_targets,
