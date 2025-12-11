@@ -20,7 +20,7 @@ def getInputs(params, sampleList="fileList"):
         npvs_good = np.array(theFile["PV_npvsGood"])
 
     for fileName in track(listOfFiles[1:], console=console):
-        console.log(fileName)
+        # console.log(fileName)
         try:
             with h5py.File(fileName, "r") as theFile:
                 caloRegions = np.concatenate(
