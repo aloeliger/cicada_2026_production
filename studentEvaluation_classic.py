@@ -70,6 +70,9 @@ def main(params):
         outputHist=params["cicadaStudentClassic"]["ROCPlot"],
     )
 
+    # print the informedness
+    evaluateStudent_classic.printMaximumInformedness(informednesses)
+
 
 if __name__ == "__main__":
     with open("params.yaml") as theFile:

@@ -76,3 +76,12 @@ def testGetMaxInformedness():
     _, _, _, _ = esc.getMaxInformedness(
         backgroundScores, signalScores, fprs, tprs, thresholds
     )
+
+
+def testPrintMaximumInformedness():
+    informedness = {
+        "Fake": (1.0, 0.0, 1.0),
+        "Also Fake": (0.5, 0.5, 0.5),
+    }
+
+    esc.printMaximumInformedness(informedness)

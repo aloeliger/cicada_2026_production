@@ -4,6 +4,7 @@ import mplhep as hep
 import numpy as np
 from rich.console import Console
 from rich.progress import track
+from rich.table import Table
 from sklearn.metrics import confusion_matrix, roc_curve
 
 from .utils import convert_eff_to_rate
@@ -110,3 +111,25 @@ def getMaxInformedness(backgroundScores, signalScores, fprs, tprs, thresholds):
     maxFpr = fprs[bestIndex]
     maxTpr = tprs[bestIndex]
     return maxInformedness, maxThreshold, maxFpr, maxTpr
+
+
+def printMaximumInformedness(informedness):
+    informednessGrid = Table.grid()
+    informednessGrid.add_column("Sample")
+    informednessGrid.add_column("Rate (kHz)")
+    informednessGrid.add_column("True Positive Rate")
+    informednessGrid.add_column("Informedness")
+
+    for sample in informedness:
+        sample_informedness = informedness[sample][0]
+        sample_FPR = informedness[sample][1]
+        sample_rate = convert_eff_to_rate(sample_FPR)
+        sample_TPR = informedness[sample][2]
+        informednessGrid.add_row(
+            f"{sample}",
+            f"{sample_rate:.3g}",
+            f"{sample_TPR:.3g}",
+            f"{sample_informedness:.3g}",
+        )
+
+    console.print(informednessGrid)
