@@ -9,7 +9,10 @@ console = Console()
 
 def main(params):
     console.log("Getting list of files")
-    fileList = utils.buildFileList(params["cicadaStudentCommon"]["fileDir"])
+    fileList = utils.buildFileList(
+        params["cicadaStudentCommon"]["fileDir"],
+        params["cicadaStudentCommon"]["dataFileDilation"],
+    )
 
     console.log("Making CICADA student: classic")
     caloRegions, taubit, egbit, npvs, npvs_good = cicadaStudent_classic.getInputs(

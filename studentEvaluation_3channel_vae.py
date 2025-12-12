@@ -17,7 +17,10 @@ console = Console()
 def main(params):
     console.log("Making 3channel student evaluation")
     console.log("Getting list of files")
-    fileList = utils.buildFileList(params["cicadaStudentCommon"]["fileDir"])
+    fileList = utils.buildFileList(
+        params["cicadaStudentCommon"]["fileDir"],
+        params["cicadaStudentCommon"]["dataFileDilation"],
+    )
     console.log("Loading data inputs")
     data_caloRegions, data_taubit, data_egbit, data_npvs, data_npvs_good = (
         cicadaStudent_classic.getInputs(fileList)
