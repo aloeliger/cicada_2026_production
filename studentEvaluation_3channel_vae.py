@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import numpy as np
 import yaml
 from rich.console import Console
 from tensorflow import keras
@@ -23,6 +24,13 @@ def main(params):
     )
     dataStudentInputs = cicadaStudent_vae_3channel.createStudentModelInputs(
         data_caloRegions, data_taubit, data_egbit
+    )
+
+    # Filter this down to the non-training set of data inputs
+    _, _, dataStudentInputs, _, _, _, _, _, _ = (
+        cicadaStudent_classic.performDatasetSplitting(
+            dataStudentInputs, np.zeros(len(dataStudentInputs))
+        )
     )
 
     console.log("Loading Single W inputs")

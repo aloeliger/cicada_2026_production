@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import numpy as np
 import yaml
 from rich.console import Console
 from tensorflow import keras
@@ -15,6 +16,13 @@ def main(params):
     console.log("Loading data inputs")
     data_caloRegions, data_taubit, data_egbit, data_npvs, data_npvs_good = (
         cicadaStudent_classic.getInputs(fileList)
+    )
+
+    # Filter this down to the non-training set of data inputs
+    _, _, data_caloRegions, _, _, _, _, _, _ = (
+        cicadaStudent_classic.performDatasetSplitting(
+            data_caloRegions, np.zeros(len(data_caloRegions))
+        )
     )
 
     console.log("Loading Single W inputs")
