@@ -162,14 +162,14 @@ def makeScoreWeights(targets, outputFile):
     return targetWeights
 
 
-def trainStudentModel(model, caloRegions, targets, weights=None):
+def performDatasetSplitting(inputs, targets, weights=None):
     if weights is None:
-        train_caloRegions, testval_caloRegions, train_targets, testval_targets = (
-            train_test_split(caloRegions, targets, test_size=0.2, random_state=42)
+        train_inputs, testval_inputs, train_targets, testval_targets = train_test_split(
+            inputs, targets, test_size=0.2, random_state=42
         )
 
-        test_caloRegions, val_caloRegions, test_targets, val_targets = train_test_split(
-            testval_caloRegions, testval_targets, test_size=0.1 / 0.2, random_state=123
+        test_inputs, val_inputs, test_targets, val_targets = train_test_split(
+            testval_inputs, testval_targets, test_size=0.1 / 0.2, random_state=123
         )
         train_weights, val_weights, test_weights = (
             None,
@@ -179,30 +179,57 @@ def trainStudentModel(model, caloRegions, targets, weights=None):
 
     else:
         (
-            train_caloRegions,
-            testval_caloRegions,
+            train_inputs,
+            testval_inputs,
             train_targets,
             testval_targets,
             train_weights,
             testval_weights,
-        ) = train_test_split(
-            caloRegions, targets, weights, test_size=0.2, random_state=42
-        )
+        ) = train_test_split(inputs, targets, weights, test_size=0.2, random_state=42)
 
         (
-            test_caloRegions,
-            val_caloRegions,
+            test_inputs,
+            val_inputs,
             test_targets,
             val_targets,
             test_weights,
             val_weights,
         ) = train_test_split(
-            testval_caloRegions,
+            testval_inputs,
             testval_targets,
             testval_weights,
             test_size=0.1 / 0.2,
             random_state=123,
         )
+    return (
+        train_inputs,
+        val_inputs,
+        test_inputs,
+        train_targets,
+        val_targets,
+        test_targets,
+        train_weights,
+        val_weights,
+        test_weights,
+    )
+
+
+def trainStudentModel(model, caloRegions, targets, weights=None):
+    (
+        train_caloRegions,
+        val_caloRegions,
+        test_caloRegions,
+        train_targets,
+        val_targets,
+        test_targets,
+        train_weights,
+        val_weights,
+        test_weights,
+    ) = performDatasetSplitting(
+        caloRegions,
+        targets,
+        weights,
+    )
 
     keras.utils.set_random_seed(123)
     model.fit(

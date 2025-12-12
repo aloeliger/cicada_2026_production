@@ -3,9 +3,10 @@ import numpy as np
 import tensorflow as tf
 import tensorflow.keras.backend as K
 from rich.console import Console
-from sklearn.model_selection import train_test_split
 from tensorflow import keras
 from tensorflow.keras.losses import BinaryCrossentropy
+
+from .cicadaStudent_classic import performDatasetSplitting
 
 console = Console()
 
@@ -172,40 +173,17 @@ def makeTargets(teacher_model, caloRegions, tauBits, egBits):
 
 
 def trainStudentModel(model, inputs, targets, weights=None):
-    if weights is None:
-        train_inputs, testval_inputs, train_targets, testval_targets = train_test_split(
-            inputs, targets, test_size=0.2, random_state=42
-        )
-
-        test_inputs, val_inputs, test_targets, val_targets = train_test_split(
-            testval_inputs, testval_targets, test_size=0.1 / 0.2, random_state=123
-        )
-
-        train_weights, val_weights, test_weights = None, None, None
-    else:
-        (
-            train_inputs,
-            testval_inputs,
-            train_targets,
-            testval_targets,
-            train_weights,
-            testval_weights,
-        ) = train_test_split(inputs, targets, weights, test_size=0.2, random_state=42)
-
-        (
-            test_inputs,
-            val_inputs,
-            test_targets,
-            val_targets,
-            test_weights,
-            val_weights,
-        ) = train_test_split(
-            testval_inputs,
-            testval_targets,
-            testval_weights,
-            test_size=0.1 / 0.2,
-            random_state=123,
-        )
+    (
+        train_inputs,
+        val_inputs,
+        test_inputs,
+        train_targets,
+        val_targets,
+        test_targets,
+        train_weights,
+        val_weights,
+        test_weights,
+    ) = performDatasetSplitting(inputs, targets, weights)
 
     keras.utils.set_random_seed(123)
     model.fit(

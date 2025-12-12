@@ -85,6 +85,62 @@ def testMakeScoreWeights(mocker):
     assert targetWeights[0] > targetWeights[3]
 
 
+def testPerformDatasetSplitting(mocker):
+    fakeInputs = np.arange(10)
+    targets = np.arange(10)
+    weights = np.arange(10)
+
+    (
+        train_x,
+        val_x,
+        test_x,
+        train_y,
+        val_y,
+        test_y,
+        train_weight,
+        val_weight,
+        test_weight,
+    ) = cicadaStudent_classic.performDatasetSplitting(fakeInputs, targets, weights)
+    assert len(train_x) == len(train_y)
+    assert len(train_x) == len(train_weight)
+    assert len(val_x) == len(val_y)
+    assert len(val_x) == len(val_weight)
+    assert len(test_x) == len(test_y)
+    assert len(test_x) == len(test_weight)
+    assert len(train_x) == 8
+    assert len(val_x) == 1
+    assert len(test_x) == 1
+
+
+def testPerformDatasetSplittingNoWeights(mocker):
+    fakeInputs = np.arange(10)
+    targets = np.arange(10)
+    weights = None
+
+    (
+        train_x,
+        val_x,
+        test_x,
+        train_y,
+        val_y,
+        test_y,
+        train_weight,
+        val_weight,
+        test_weight,
+    ) = cicadaStudent_classic.performDatasetSplitting(fakeInputs, targets, weights)
+    assert len(train_x) == len(train_y)
+
+    assert len(val_x) == len(val_y)
+
+    assert len(test_x) == len(test_y)
+
+    assert len(train_x) == 8
+    assert len(val_x) == 1
+    assert len(test_x) == 1
+
+    assert train_weight is None and test_weight is None and val_weight is None
+
+
 def testTrainStudentModel(mocker):
     mockModel = mocker.Mock()
 
