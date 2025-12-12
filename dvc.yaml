@@ -53,6 +53,16 @@ stages:
       - data/logs/3channel_vae_student_log.csv
       - data/3channelScoreHisto.h5
 
+  make_encoder_only_model:
+    cms: python3 createEncoderOnlyModel.py
+    deps:
+      - src/cicadaStudent_vae_3channel.py
+      - src/encoderOnlyModel.py
+    params:
+      - cicadaStudentVAE3Channel
+    outs:
+      - data/encoderOnlyModel
+
   evaluate_classic_student:
     cmd: python3 studentEvaluation_classic.py
     deps:
