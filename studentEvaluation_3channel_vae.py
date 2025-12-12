@@ -7,6 +7,7 @@ from src import (
     cicadaStudent_classic,
     cicadaStudent_vae_3channel,
     evaluateStudent_classic,
+    utils,
 )
 
 console = Console()
@@ -14,22 +15,25 @@ console = Console()
 
 def main(params):
     console.log("Making 3channel student evaluation")
+    console.log("Getting list of files")
+    fileList = utils.buildFileList(params["cicadaStudentCommon"]["fileDir"])
     console.log("Loading data inputs")
     data_caloRegions, data_taubit, data_egbit, data_npvs, data_npvs_good = (
-        cicadaStudent_classic.getInputs(params)
+        cicadaStudent_classic.getInputs(fileList)
     )
     dataStudentInputs = cicadaStudent_vae_3channel.createStudentModelInputs(
         data_caloRegions, data_taubit, data_egbit
     )
 
     console.log("Loading Single W inputs")
+    singleWFileList = utils.buildFileList(params["cicadaStudentCommon"]["singleWDir"])
     (
         singleW_caloRegions,
         singleW_taubit,
         singleW_egbit,
         singleW_npvs,
         singleW_npvs_good,
-    ) = cicadaStudent_classic.getInputs(params, sampleList="single_W_list")
+    ) = cicadaStudent_classic.getInputs(singleWFileList)
     singleWStudentInputs = cicadaStudent_vae_3channel.createStudentModelInputs(
         singleW_caloRegions,
         singleW_taubit,

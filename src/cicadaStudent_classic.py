@@ -10,8 +10,7 @@ from tensorflow import keras
 console = Console()
 
 
-def getInputs(params, sampleList="fileList"):
-    listOfFiles = params["cicadaStudentCommon"][sampleList]
+def getInputs(listOfFiles):
     with h5py.File(listOfFiles[0]) as theFile:
         caloRegions = np.array(theFile["CaloRegions"]["et"])
         taubit = np.array(theFile["CaloRegions"]["taubit"])

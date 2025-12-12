@@ -3,26 +3,29 @@ import yaml
 from rich.console import Console
 from tensorflow import keras
 
-from src import cicadaStudent_classic, evaluateStudent_classic
+from src import cicadaStudent_classic, evaluateStudent_classic, utils
 
 console = Console()
 
 
 def main(params):
     console.log("Making student evaluation")
+    console.log("Getting list of files")
+    fileList = utils.buildFileList(params["cicadaStudentCommon"]["fileDir"])
     console.log("Loading data inputs")
     data_caloRegions, data_taubit, data_egbit, data_npvs, data_npvs_good = (
-        cicadaStudent_classic.getInputs(params)
+        cicadaStudent_classic.getInputs(fileList)
     )
 
     console.log("Loading Single W inputs")
+    singleWFileList = utils.buildFileList(params["cicadaStudentCommon"]["singleWDir"])
     (
         singleW_caloRegions,
         singleW_taubit,
         singleW_egbit,
         singleW_npvs,
         singleW_npvs_good,
-    ) = cicadaStudent_classic.getInputs(params, sampleList="single_W_list")
+    ) = cicadaStudent_classic.getInputs(singleWFileList)
 
     classicModel = keras.models.load_model("data/cicadaStudent_classic/")
 

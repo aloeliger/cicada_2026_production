@@ -2,14 +2,18 @@ import yaml
 from rich.console import Console
 
 import src.cicadaStudent_classic as cicadaStudent_classic
+from src import utils
 
 console = Console()
 
 
 def main(params):
+    console.log("Getting list of files")
+    fileList = utils.buildFileList(params["cicadaStudentCommon"]["fileDir"])
+
     console.log("Making CICADA student: classic")
     caloRegions, taubit, egbit, npvs, npvs_good = cicadaStudent_classic.getInputs(
-        params
+        fileList,
     )
 
     console.log(f"Calo regions shape: {caloRegions.shape}")

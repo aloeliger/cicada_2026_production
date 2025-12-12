@@ -61,6 +61,7 @@ limitInputs: 2500000
 alpha: 1.0
 beta: 1.0
 cicadaStudentCommon:
+  fileDir: /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/
   fileList: [
   /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5ad84168-5152-4e76-8b08-4764a16e48e5.h5,
   /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/l1nano_AD-5adaed1f-4640-4384-907b-f07cfbe7a4a5.h5,

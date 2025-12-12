@@ -10,7 +10,10 @@ import cicada_2026_production.src.cicadaStudent_classic as cicadaStudent_classic
 
 
 def test_getInputs(mocker):
-    testParams = {"cicadaStudentCommon": {"fileList": ["fileOne.h5"]}}
+    # testParams = {"cicadaStudentCommon": {"fileList": ["fileOne.h5"]}}
+    testFileList = [
+        "fileOne.h5",
+    ]
 
     mockData = {
         "CaloRegions": {
@@ -31,7 +34,7 @@ def test_getInputs(mocker):
 
     mocker.patch("h5py.File", return_value=fileMock)
     caloRegions, taubit, egbit, npvs, npvs_good = cicadaStudent_classic.getInputs(
-        testParams
+        testFileList,
     )
 
     assert np.array_equal(caloRegions, np.array(mockData["CaloRegions"]["et"]))
