@@ -39,22 +39,22 @@ stages:
       - data/logs/classic_student_log.csv
       - data/classicScoreHisto.h5
 
-  make_3channel_vae_student:
-    cmd: python3 trainCICADAStudent_vae_3channel.py
-    deps:
-      - src/cicadaStudent_vae_3channel.py
-      - src/cicadaStudent_classic.py
-      - trainCICADAStudent_vae_3channel.py
-    params:
-      - cicadaStudentVAE3Channel
-      - cicadaStudentCommon
-    outs:
-      - data/3channel_vae_student
-      - data/logs/3channel_vae_student_log.csv
-      - data/3channelScoreHisto.h5
+  # make_3channel_vae_student:
+  #   cmd: python3 trainCICADAStudent_vae_3channel.py
+  #   deps:
+  #     - src/cicadaStudent_vae_3channel.py
+  #     - src/cicadaStudent_classic.py
+  #     - trainCICADAStudent_vae_3channel.py
+  #   params:
+  #     - cicadaStudentVAE3Channel
+  #     - cicadaStudentCommon
+  #   outs:
+  #     - data/3channel_vae_student
+  #     - data/logs/3channel_vae_student_log.csv
+  #     - data/3channelScoreHisto.h5
 
   make_encoder_only_model:
-    cms: python3 createEncoderOnlyModel.py
+    cmd: python3 createEncoderOnlyModel.py
     deps:
       - src/cicadaStudent_vae_3channel.py
       - src/encoderOnlyModel.py
@@ -74,13 +74,13 @@ stages:
     params:
       - cicadaStudentClassic
 
-  evaluate_vae_student:
-    cmd: python3 studentEvaluation_3channel_vae.py
-    deps:
-      - src/cicadaStudent_classic.py
-      - src/cicadaStudent_vae_3channel.py
-      - src/utils.py
-      - studentEvaluation_3channel_vae.py
-      - data/3channel_vae_student
-    params:
-      - cicadaStudentVAE3Channel
+  # evaluate_vae_student:
+  #   cmd: python3 studentEvaluation_3channel_vae.py
+  #   deps:
+  #     - src/cicadaStudent_classic.py
+  #     - src/cicadaStudent_vae_3channel.py
+  #     - src/utils.py
+  #     - studentEvaluation_3channel_vae.py
+  #     - data/3channel_vae_student
+  #   params:
+  #     - cicadaStudentVAE3Channel
