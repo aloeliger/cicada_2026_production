@@ -75,3 +75,20 @@ cicadaStudentVAE3Channel:
   teacherModel: data/three_channel_teacher/
   scoreHistogramOutput: data/3channelScoreHisto.h5
   ROCPlot: data/VAEStudent_ROCPlot.png
+
+cicadaEncoderOnly:
+  layers: [
+  "teacher_inputs_",
+  "teacher_reshape",
+  "slice_energy",
+  "log1p_energy",
+  "slice_binary",
+  "merge_inputs",
+  "enc_conv_1",
+  "enc_relu_1",
+  "enc_pool_1",
+  "enc_conv_2",
+  "enc_relu_2",
+  "enc_flatten",
+  "z_mean",
+  ]
