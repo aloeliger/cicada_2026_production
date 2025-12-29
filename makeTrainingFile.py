@@ -12,10 +12,14 @@ console = Console()
 def main(params):
     for fileType in params["files"]:
         console.log(f"Processing file type: {fileType}")
+        goodRuns = None
+        if fileType == "dataFiles":
+            goodRuns = params["goodRuns"]
         etGrids, tauGrids, egGrids = trainingFiles.processFiles(
             fileType=fileType,
             filePath=params["files"][fileType],
             limitInputs=params["limitInputs"],
+            goodRuns=goodRuns,
         )
 
         trainingFiles.saveGrids(

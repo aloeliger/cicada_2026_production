@@ -1,19 +1,19 @@
 stages:
-  # make_training_file:
-  #   cmd: python3 makeTrainingFile.py
-  #   deps:
-  #     - makeTrainingFile.py
-  #     - src/utils.py
-  #     - src/trainingFiles.py
-  #   params:
-  #     - files
-  #     - goodRuns
-  #     - limitInputs
-  #   outs:
-  #     - data/dataFiles_output.h5
-  #     - data/suepFiles_output.h5
-  #     - data/VBFHToTauTauFiles_output.h5
-  #     - data/TTFiles_output.h5
+  make_training_file:
+    cmd: python3 makeTrainingFile.py
+    deps:
+      - makeTrainingFile.py
+      - src/utils.py
+      - src/trainingFiles.py
+    params:
+      - files
+      - goodRuns
+      - limitInputs
+    outs:
+      - data/dataFiles_output.h5
+      - data/suepFiles_output.h5
+      - data/VBFHToTauTauFiles_output.h5
+      - data/TTFiles_output.h5
       
   # make_cicada_teacher:
   #   cmd: python3 trainCICADA2026Teacher.py

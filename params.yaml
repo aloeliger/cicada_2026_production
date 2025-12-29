@@ -56,7 +56,7 @@ goodRuns:
 - 398828
 - 398860
 
-limitInputs: 2500000
+limitInputs: 100000
 
 alpha: 1.0
 beta: 1.0
@@ -78,6 +78,21 @@ cicadaStudentVAE3Channel:
 
 cicadaEncoderOnly:
   layers: [
+  # "teacher_inputs_",
+  # "teacher_reshape",
+  # "slice_energy",
+  # "log1p_energy",
+  # "slice_binary",
+  # "merge_inputs",
+  "enc_conv_1",
+  "enc_relu_1",
+  "enc_pool_1",
+  "enc_conv_2",
+  "enc_relu_2",
+  "enc_flatten",
+  "z_mean",
+  ]
+  pythonUsabilityLayers: [
   "teacher_inputs_",
   "teacher_reshape",
   "slice_energy",
@@ -92,3 +107,4 @@ cicadaEncoderOnly:
   "enc_flatten",
   "z_mean",
   ]
+  outputModel: data/encoderOnlyModel

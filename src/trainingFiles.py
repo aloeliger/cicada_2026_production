@@ -50,8 +50,19 @@ def processBatch(batch) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     return reshapedModelInput, reshapedTauBits, reshapedEGBits
 
 
+def makeGoodRunCut(goodRuns: list[int]) -> str:
+    cut = ""
+    for run in goodRuns:
+        cut += f"run == {run} || "
+    cut = cut[:-4]
+    return cut
+
+
 def processFiles(
-    fileType: str, filePath: str, limitInputs: Optional[int] = None
+    fileType: str,
+    filePath: str,
+    limitInputs: Optional[int] = None,
+    goodRuns: Optional[list] = None,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     # Let's first put together all the files that will go into this
     fileList = utils.buildFileList(filePath)
@@ -81,6 +92,10 @@ def processFiles(
         totalEvents = min(countChain.GetEntries(), limitInputs)
     console.log(f"Total Events: {totalEvents}")
 
+    goodRunCut = None
+    if goodRuns is not None:
+        goodRunCut = makeGoodRunCut(goodRuns)
+
     with Live(console=console) as live:
         eventsProcessed = 0
         processedBatches = 0
@@ -89,7 +104,7 @@ def processFiles(
         allTauBitGrids = []
         allEGBitGrids = []
         for batch in uproot.iterate(
-            fileList, filter_name=usedBranches, step_size="1 GB"
+            fileList, filter_name=usedBranches, step_size="1 GB", cut=goodRunCut
         ):
             if eventsProcessed >= totalEvents:
                 break
