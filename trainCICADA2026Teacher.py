@@ -11,7 +11,7 @@ console = Console()
 
 
 def main(params):
-    dataPath = params["files"]["dataFiles"]
+    dataPath = params["inputFiles"]["dataFile"]
     dataGrids = trainTeacher.loadFile(dataPath)
 
     teacherModel = trainTeacher.makeTeacherModel(

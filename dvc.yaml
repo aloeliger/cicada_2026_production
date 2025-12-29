@@ -14,30 +14,42 @@ stages:
       - data/suepFiles_output.h5
       - data/VBFHToTauTauFiles_output.h5
       - data/TTFiles_output.h5
-      
-  # make_cicada_teacher:
-  #   cmd: python3 trainCICADA2026Teacher.py
-  #   deps:
-  #     - trainCICADA2026Teacher.py
-  #   params:
-  #     - alpha
-  #     - beta
-  #     - files.dataFiles
-  #   outs:
-  #     - data/teacher_model.keras
-  #     - data/training_log.csv
-  make_classic_student:
-    cmd: python3 trainCICADAStudent_classic.py
+
+  make_cicada_teacher:
+    cmd: python3 trainCICADA2026Teacher.py
     deps:
-      - src/cicadaStudent_classic.py
-      - trainCICADAStudent_classic.py
+      - trainCICADA2026Teacher.py
+      - data/dataFiles_output.h5
     params:
-      - cicadaStudentClassic
-      - cicadaStudentCommon
+      - alpha
+      - beta
+      - inputFiles.dataFile
     outs:
-      - data/cicadaStudent_classic
-      - data/logs/classic_student_log.csv
-      - data/classicScoreHisto.h5
+      - data/teacher_model.keras
+      - data/training_log.csv
+
+  make_cicada_vae:
+    cmd: python3 trainCICADA2026Teacher_VAE.py
+    deps:
+      - trainCICADA2026Teacher_VAE.py
+      - data/dataFiles_output.h5
+    params:
+      - cicadaTeacherVAE3Channel
+    outs:
+      - data/teacher_model_vae.keras
+
+  # make_classic_student:
+  #   cmd: python3 trainCICADAStudent_classic.py
+  #   deps:
+  #     - src/cicadaStudent_classic.py
+  #     - trainCICADAStudent_classic.py
+  #   params:
+  #     - cicadaStudentClassic
+  #     - cicadaStudentCommon
+  #   outs:
+  #     - data/cicadaStudent_classic
+  #     - data/logs/classic_student_log.csv
+  #     - data/classicScoreHisto.h5
 
   # make_3channel_vae_student:
   #   cmd: python3 trainCICADAStudent_vae_3channel.py
@@ -53,26 +65,26 @@ stages:
   #     - data/logs/3channel_vae_student_log.csv
   #     - data/3channelScoreHisto.h5
 
-  make_encoder_only_model:
-    cmd: python3 createEncoderOnlyModel.py
-    deps:
-      - src/cicadaStudent_vae_3channel.py
-      - src/encoderOnlyModel.py
-    params:
-      - cicadaStudentVAE3Channel
-    outs:
-      - data/encoderOnlyModel
+  # make_encoder_only_model:
+  #   cmd: python3 createEncoderOnlyModel.py
+  #   deps:
+  #     - src/cicadaStudent_vae_3channel.py
+  #     - src/encoderOnlyModel.py
+  #   params:
+  #     - cicadaStudentVAE3Channel
+  #   outs:
+  #     - data/encoderOnlyModel
 
-  evaluate_classic_student:
-    cmd: python3 studentEvaluation_classic.py
-    deps:
-      - src/evaluateStudent_classic.py
-      - src/utils.py
-      - src/cicadaStudent_classic.py
-      - studentEvaluation_classic.py
-      - data/cicadaStudent_classic
-    params:
-      - cicadaStudentClassic
+  # evaluate_classic_student:
+  #   cmd: python3 studentEvaluation_classic.py
+  #   deps:
+  #     - src/evaluateStudent_classic.py
+  #     - src/utils.py
+  #     - src/cicadaStudent_classic.py
+  #     - studentEvaluation_classic.py
+  #     - data/cicadaStudent_classic
+  #   params:
+  #     - cicadaStudentClassic
 
   # evaluate_vae_student:
   #   cmd: python3 studentEvaluation_3channel_vae.py

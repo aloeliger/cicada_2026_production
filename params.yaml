@@ -4,6 +4,12 @@ files:
   VBFHToTauTauFiles: /hdfs/store/user/aloelige/VBFHToTauTau_M125_TuneCP5_13p6TeV_powheg-pythia8/AnomalyDetectionPaper2025_VBFHToTauTau_Winter24_05May2025
   TTFiles: /hdfs/store/user/aloelige/TT_TuneCP5_13p6TeV_powheg-pythia8/AnomalyDetectionPaper2025_TT_Winter24_01May2025
 
+inputFiles:
+  dataFile: data/dataFiles_output.h5
+  suepFile: data/suepFiles_output.h5
+  VBFFile: data/VBFHToTauTauFiles_output.h5
+  TTFile: data/TTFiles_output.h5
+
 score_name: CICADA2025_CICADAScore
 
 goodRuns:
