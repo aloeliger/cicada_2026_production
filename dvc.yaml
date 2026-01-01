@@ -1,4 +1,5 @@
 stages:
+  # Make the training file
   make_training_file:
     cmd: python3 makeTrainingFile.py
     deps:
@@ -14,6 +15,8 @@ stages:
       - data/suepFiles_output.h5
       - data/VBFHToTauTauFiles_output.h5
       - data/TTFiles_output.h5
+
+  # Make autoencoders
 
   make_cicada_teacher:
     cmd: python3 trainCICADA2026Teacher.py
@@ -38,18 +41,22 @@ stages:
     outs:
       - data/teacher_model_vae.keras
 
-  # make_classic_student:
-  #   cmd: python3 trainCICADAStudent_classic.py
-  #   deps:
-  #     - src/cicadaStudent_classic.py
-  #     - trainCICADAStudent_classic.py
-  #   params:
-  #     - cicadaStudentClassic
-  #     - cicadaStudentCommon
-  #   outs:
-  #     - data/cicadaStudent_classic
-  #     - data/logs/classic_student_log.csv
-  #     - data/classicScoreHisto.h5
+  # Make any students or reduced models
+
+  make_classic_student:
+    cmd: python3 trainCICADAStudent_classic.py
+    deps:
+      - src/cicadaStudent_classic.py
+      - trainCICADAStudent_classic.py
+      - src/trainTeacher.py
+      - data/teacher_model.keras
+    params:
+      - cicadaStudentClassic
+      - cicadaStudentCommon
+    outs:
+      - data/cicadaStudent_classic
+      - data/logs/classic_student_log.csv
+      - data/classicScoreHisto.h5
 
   # make_3channel_vae_student:
   #   cmd: python3 trainCICADAStudent_vae_3channel.py
@@ -74,6 +81,10 @@ stages:
   #     - cicadaStudentVAE3Channel
   #   outs:
   #     - data/encoderOnlyModel
+
+  # Make any firmware.
+
+  # Make evaluations
 
   # evaluate_classic_student:
   #   cmd: python3 studentEvaluation_classic.py

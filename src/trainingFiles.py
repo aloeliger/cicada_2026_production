@@ -53,8 +53,8 @@ def processBatch(batch) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
 def makeGoodRunCut(goodRuns: list[int]) -> str:
     cut = ""
     for run in goodRuns:
-        cut += f"run == {run} || "
-    cut = cut[:-4]
+        cut += f"(run == {run}) | "
+    cut = cut[:-3]
     return cut
 
 

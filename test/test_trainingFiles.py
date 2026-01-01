@@ -234,4 +234,4 @@ def test_saveGrids(etGrids, tauBitGrids, egBitGrids):
 def test_makeGoodRunCut():
     goodRuns = [1, 2, 3]
     goodRunCut = trainingFiles.makeGoodRunCut(goodRuns)
-    assert goodRunCut == "run == 1 || run == 2 || run == 3"
+    assert goodRunCut == "(run == 1) | (run == 2) | (run == 3)"

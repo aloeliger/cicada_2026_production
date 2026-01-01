@@ -64,7 +64,7 @@ def egBitGrids():
 def test_loadFile(mocker):
     mock_file = MagicMock()
 
-    mocker.patch("h5py.open", return_value=mock_file)
+    mocker.patch("h5py.File", return_value=mock_file)
 
     _ = trainTeacher.loadFile("dummyPath/")
 

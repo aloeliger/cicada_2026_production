@@ -67,6 +67,9 @@ limitInputs: 100000
 alpha: 1.0
 beta: 1.0
 
+cicadaTeacherVAE3Channel:
+  latentSpaceSize: 32
+
 cicadaStudentCommon:
   dataFileDilation: 15
   fileDir: /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/ZB/h5/ZB_withPUinfo_files/

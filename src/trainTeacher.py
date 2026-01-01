@@ -9,15 +9,16 @@ from tensorflow import keras
 console = Console()
 
 
-def loadFile(path: str) -> np.ndarray:
-    with h5py.open(path) as theFile:
+def loadFile(path: str) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    with h5py.File(path) as theFile:
         etGrid = np.array(theFile["et"])
         tauBitGrid = np.array(theFile["tauBits"])
         egBitGrid = np.array(theFile["egBits"])
     etGrid = etGrid.reshape((-1, 18, 14, 1))
     tauBitGrid = tauBitGrid.reshape((-1, 18, 14, 1))
     egBitGrid = egBitGrid.reshape((-1, 18, 14, 1))
-    return np.concatenate([etGrid, tauBitGrid, egBitGrid], axis=-1)
+    # return np.concatenate([etGrid, tauBitGrid, egBitGrid], axis=-1)
+    return etGrid, tauBitGrid, egBitGrid
 
 
 def make_mse_bce_loss(alpha: float, beta: float) -> Callable:
@@ -168,7 +169,7 @@ def trainModel(model, inputs, test_inputs):
         validation_split=0.3,
         epochs=300,
         callbacks=[
-            keras.callbacks.EarlyStopping(patience=30, restore_weights=True),
+            keras.callbacks.EarlyStopping(patience=30, restore_best_weights=True),
             keras.callbacks.ReduceLROnPlateau(patience=10),
             keras.callbacks.ModelCheckpoint(
                 "data/teacher_model.keras", store_best_only=True

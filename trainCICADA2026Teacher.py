@@ -5,23 +5,23 @@ import yaml
 from rich.console import Console
 from sklearn.model_selection import train_test_split
 
-import cicada_2026_production.src.trainTeacher as trainTeacher
+from src import trainTeacher
 
 console = Console()
 
 
 def main(params):
     dataPath = params["inputFiles"]["dataFile"]
-    dataGrids = trainTeacher.loadFile(dataPath)
+    caloRegions, tauBits, egBits = trainTeacher.loadFile(dataPath)
 
     teacherModel = trainTeacher.makeTeacherModel(
-        inputShape=dataGrids.shape[1:],
+        inputShape=caloRegions.shape[1:],
         alpha=params["alpha"],
         beta=params["beta"],
     )
 
     train_grids, test_grids = train_test_split(
-        dataGrids,
+        caloRegions,
         test_size=0.2,
         random_state=123,
     )
