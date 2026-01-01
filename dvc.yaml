@@ -72,15 +72,16 @@ stages:
   #     - data/logs/3channel_vae_student_log.csv
   #     - data/3channelScoreHisto.h5
 
-  # make_encoder_only_model:
-  #   cmd: python3 createEncoderOnlyModel.py
-  #   deps:
-  #     - src/cicadaStudent_vae_3channel.py
-  #     - src/encoderOnlyModel.py
-  #   params:
-  #     - cicadaStudentVAE3Channel
-  #   outs:
-  #     - data/encoderOnlyModel
+  make_encoder_only_model:
+    cmd: python3 createEncoderOnlyModel.py
+    deps:
+      - src/teacher_vae
+      - src/encoderOnlyModel.py
+    params:
+      - cicadaTeacherVAE3Channel
+      - cicadaEncoderOnly
+    outs:
+      - data/encoderOnlyModel
 
   # Make any firmware.
 

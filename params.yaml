@@ -76,7 +76,7 @@ cicadaStudentCommon:
   singleWDir: /hdfs/store/user/mallampalli/internal_cicada_files/withPUinfo/singleW/h5/singleW_withPUinfo_files/
 
 cicadaStudentClassic:
-  teacherModel: data/only_energy_teacher
+  teacherModel: data/teacher_model.keras
   scoreHistogramOutput: data/classicScoreHisto.h5
   ROCPlot: data/classicStudent_ROCPlot.png
 
@@ -86,19 +86,29 @@ cicadaStudentVAE3Channel:
   ROCPlot: data/VAEStudent_ROCPlot.png
 
 cicadaEncoderOnly:
+  model: data/teacher_model_vae.keras
+  # layers: [
+  # # "teacher_inputs_",
+  # # "teacher_reshape",
+  # # "slice_energy",
+  # # "log1p_energy",
+  # # "slice_binary",
+  # # "merge_inputs",
+  # "enc_conv_1",
+  # "enc_relu_1",
+  # "enc_pool_1",
+  # "enc_conv_2",
+  # "enc_relu_2",
+  # "enc_flatten",
+  # "z_mean",
+  # ]
   layers: [
-  # "teacher_inputs_",
-  # "teacher_reshape",
-  # "slice_energy",
-  # "log1p_energy",
-  # "slice_binary",
-  # "merge_inputs",
-  "enc_conv_1",
-  "enc_relu_1",
-  "enc_pool_1",
-  "enc_conv_2",
-  "enc_relu_2",
-  "enc_flatten",
+  "normLayer",
+  "conv_1",
+  "maxPool",
+  "denoise",
+  "conv_2",
+  "flat",
   "z_mean",
   ]
   pythonUsabilityLayers: [

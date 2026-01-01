@@ -47,8 +47,10 @@ def makeLossFn(latent_space_units):
 
 
 def make_VAE_Model(latent_space_units, inputShape):
-    inputLayer = keras.layers.Input(shape=inputShape)
-    normLayer = keras.layers.LayerNormalization(axis=(1, 2))(inputLayer)
+    inputLayer = keras.layers.Input(shape=inputShape, name="inputLayer")
+    normLayer = keras.layers.LayerNormalization(axis=(1, 2), name="normLayer")(
+        inputLayer
+    )
 
     conv_1 = keras.layers.Conv2D(
         latent_space_units * 2,

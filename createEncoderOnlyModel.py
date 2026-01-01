@@ -1,18 +1,25 @@
 import numpy as np
 import yaml
 from rich.console import Console
+from tensorflow import keras
 
-from src import cicadaStudent_vae_3channel as csVAE
 from src import encoderOnlyModel as em
+from src.teacher_vae import makeLossFn
 
 console = Console()
 nprng = np.random.default_rng(123)
 
 
 def main(params):
-    teacherModelLocation = params["cicadaStudentVAE3Channel"]["teacherModel"]
+    # teacherModelLocation = params["cicadaStudentVAE3Channel"]["teacherModel"]
+
+    loss_fn = makeLossFn(params["cicadaTeacherVAE3Channel"]["latentSpaceSize"])
+    teacherModelLocation = params["cicadaEncoderOnly"]["model"]
     console.log("Current Model:")
-    model = csVAE.loadTeacherModel(teacherModelLocation)
+    # model = csVAE.loadTeacherModel(teacherModelLocation)
+    model = keras.model.load_model(
+        teacherModelLocation, custom_objects={"lossFn": loss_fn}
+    )
     model.summary()
 
     # encoder = em.getEncoderOnly(
