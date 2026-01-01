@@ -48,6 +48,7 @@ def makeTeacherModel(
     inputShape: tuple,
     alpha: int,
     beta: int,
+    use3Channels: bool = False,
 ) -> keras.Model:
     """Encoder"""
     inputLayer = keras.layers.Input(shape=inputShape)
@@ -124,44 +125,57 @@ def makeTeacherModel(
         kernel_initializer="he_normal",
     )(act_5)
 
-    tauBit_out = keras.layers.Conv2D(
-        1,
-        (3, 3),
-        activation="sigmoid",
-        strides=1,
-        padding="same",
-        name="teacher_tauBit_output",
-    )(act_5)
+    if use3Channels:
+        tauBit_out = keras.layers.Conv2D(
+            1,
+            (3, 3),
+            activation="sigmoid",
+            strides=1,
+            padding="same",
+            name="teacher_tauBit_output",
+        )(act_5)
 
-    egBit_out = keras.layers.Conv2D(
-        1,
-        (3, 3),
-        activation="sigmoid",
-        strides=1,
-        padding="same",
-        name="teacher_egBit_output",
-    )(act_5)
+        egBit_out = keras.layers.Conv2D(
+            1,
+            (3, 3),
+            activation="sigmoid",
+            strides=1,
+            padding="same",
+            name="teacher_egBit_output",
+        )(act_5)
 
-    concat = keras.layers.Concatenate()([et_out, tauBit_out, egBit_out])
+        concat = keras.layers.Concatenate()([et_out, tauBit_out, egBit_out])
+        model = keras.Model(
+            inputs=inputLayer,
+            outputs=concat,
+            # outputs = et_out
+        )
+        lossFn = make_mse_bce_loss(
+            alpha=alpha,
+            beta=beta,
+        )
+        model.compile(optimizer="nadam", loss=lossFn)
 
-    model = keras.Model(
-        inputs=inputLayer,
-        outputs=concat,
-    )
-    lossFn = make_mse_bce_loss(
-        alpha=alpha,
-        beta=beta,
-    )
-
-    model.compile(optimizer="nadam", loss=lossFn)
+    else:
+        model = keras.Model(
+            inputs=inputLayer,
+            # outputs=concat,
+            outputs=et_out,
+        )
+        model.compile(optimizer="nadam", loss="mse")
 
     return model
 
 
-def trainModel(model, inputs, test_inputs):
+def trainModel(model, inputs, test_inputs, use3Channels: bool = False):
     console.rule("Training:")
 
     model.summary()
+
+    if use3Channels:
+        modelName = "teacher_model_3channel"
+    else:
+        modelName = "teacher_model"
 
     model.fit(
         x=inputs,
@@ -172,9 +186,9 @@ def trainModel(model, inputs, test_inputs):
             keras.callbacks.EarlyStopping(patience=30, restore_best_weights=True),
             keras.callbacks.ReduceLROnPlateau(patience=10),
             keras.callbacks.ModelCheckpoint(
-                "data/teacher_model.keras", store_best_only=True
+                f"data/{modelName}.keras", store_best_only=True
             ),
-            keras.callbacks.CSVLogger("data/training_log.csv"),
+            keras.callbacks.CSVLogger(f"data/{modelName}_training_log.csv"),
         ],
     )
 

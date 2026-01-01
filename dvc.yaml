@@ -29,7 +29,20 @@ stages:
       - inputFiles.dataFile
     outs:
       - data/teacher_model.keras
-      - data/training_log.csv
+      - data/teacher_model_training_log.csv
+
+  make_cicada_teacher_3Channel:
+    cmd: "python3 trainCICADA2026Teacher.py --use3Channels"
+    deps:
+      - trainCICADA2026Teacher.py
+      - data/dataFiles_output.h5
+    params:
+      - alpha
+      - beta
+      - inputFiles.dataFile
+    outs:
+      - data/teacher_model_3channel.keras
+      - data/teacher_model_3channel_training_log.csv
 
   make_cicada_vae:
     cmd: python3 trainCICADA2026Teacher_VAE.py
