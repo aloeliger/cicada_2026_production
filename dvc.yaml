@@ -68,9 +68,26 @@ stages:
       - cicadaStudentClassic
       - cicadaStudentCommon
     outs:
-      - data/cicadaStudent_classic
+      - data/cicadaStudent_classic.keras
       - data/logs/classic_student_log.csv
       - data/classicScoreHisto.h5
+
+  make_classic_student_3channel:
+    cmd: "python3 trainCICADAStudent_classic.py --use3Channels"
+    deps:
+      - src/cicadaStudent_classic.py
+      - trainCICADAStudent_classic.py
+      - src/trainTeacher.py
+      - data/teacher_model_3channel.keras
+    params:
+      - cicadaStudentClassic_3Channel
+      - cicadaStudentCommon
+      - alpha
+      - beta
+    outs:
+      - data/cicadaStudent_classic_3channel.keras
+      - data/cicadaStudent_classic_3channel_log.csv
+      - data/classicScore3ChannelHisto.h5
 
   # make_3channel_vae_student:
   #   cmd: python3 trainCICADAStudent_vae_3channel.py
@@ -89,6 +106,7 @@ stages:
   make_encoder_only_model:
     cmd: python3 createEncoderOnlyModel.py
     deps:
+      - createEncoderOnlyModel.py
       - src/teacher_vae.py
       - src/encoderOnlyModel.py
     params:
@@ -98,6 +116,16 @@ stages:
       - data/encoderOnlyModel
 
   # Make any firmware.
+  # Encoder only
+  make_encoder_firmware:
+    cmd: python3 makeEncoderFirmware.py
+    params:
+      - cicadaEncoderOnly
+      - makeEncoderFirmware.py
+    deps:
+      - data/encoderOnlyModel
+
+  #
 
   # Make evaluations
 

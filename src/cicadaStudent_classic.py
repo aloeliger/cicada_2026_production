@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import h5py
 import numpy as np
 import qkeras
@@ -6,6 +7,8 @@ from rich.console import Console
 from rich.progress import track
 from sklearn.model_selection import train_test_split
 from tensorflow import keras
+
+from trainTeacher import make_mse_bce_loss
 
 console = Console()
 
@@ -57,8 +60,20 @@ def getInputs(listOfFiles):
     return caloRegions, taubit, egbit, npvs, npvs_good
 
 
-def getTeacherModel(fileLocation):
-    return keras.models.load_model(fileLocation)
+def getTeacherModel(
+    fileLocation,
+    studentType="cicadaStudentClassic",
+    alpha: float = 0.0,
+    beta: float = 0.0,
+):
+    if studentType == "cicadaStudentClassic_3Channel":
+        lossFn = make_mse_bce_loss(alpha=alpha, beta=beta)
+        model = keras.models.load_model(
+            fileLocation, custom_objects={"mse_bse_loss": lossFn}
+        )
+    else:
+        model = keras.models.load_model(fileLocation)
+    return model
 
 
 def getModel(inputShape):
@@ -103,19 +118,22 @@ def getModel(inputShape):
     return model
 
 
-def makeTargets(teacher, caloRegions, taubit, egbit):
+def makeTargets(teacher, dataGrids):
     # print(caloRegions)
-    teacherPredictions = np.array(teacher.predict(caloRegions.reshape((-1, 18, 14, 1))))
+    teacherPredictions = np.array(teacher.predict(dataGrids))
+    lossFn = teacher.loss
     # print(teacherPredictions)
 
-    loss = np.mean(
-        (
-            np.array(caloRegions).reshape((-1, 18, 14, 1))
-            - np.array(teacherPredictions).reshape((-1, 18, 14, 1))
-        )
-        ** 2,
-        axis=(1, 2, 3),
-    )
+    # loss = np.mean(
+    #     (
+    #         np.array(caloRegions).reshape((-1, 18, 14, 1))
+    #         - np.array(teacherPredictions).reshape((-1, 18, 14, 1))
+    #     )
+    #     ** 2,
+    #     axis=(1, 2, 3),
+    # )
+
+    loss = lossFn(dataGrids, teacherPredictions)
 
     # print(loss)
     loss = np.clip(32.0 * np.log(loss), a_min=0.0, a_max=256.0)

@@ -54,17 +54,22 @@ def testGetModel():
 
 def testMakeTargets(mocker):
     mockTeacher = mocker.Mock()
-    caloRegions = np.ones((10, 18, 14)) * 1.0
-    tauBit = np.zeros((10, 18, 14)) * 0.0
-    egBit = np.ones((10, 18, 14)) * 1.0
+    caloRegions = np.ones((10, 18, 14, 1)) * 1.0
+    # tauBit = np.zeros((10, 18, 14, 1)) * 0.0
+    # egBit = np.ones((10, 18, 14, 1)) * 1.0
 
     mockTeacher.predict.return_value = 0.5 * caloRegions.reshape((-1, 18, 14, 1))
+
+    def mse(y_pred, y_true):
+        return np.mean((y_pred - y_true) ** 2, axis=(1, 2, 3))
+
+    mockTeacher.loss = mse
 
     targets = cicadaStudent_classic.makeTargets(
         mockTeacher,
         caloRegions,
-        tauBit,
-        egBit,
+        # tauBit,
+        # egBit,
     )
 
     targets = np.array(targets)

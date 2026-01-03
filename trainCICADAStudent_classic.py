@@ -1,3 +1,6 @@
+import argparse
+
+import numpy as np
 import yaml
 from rich.console import Console
 
@@ -7,11 +10,16 @@ import src.trainTeacher as trainTeacher
 console = Console()
 
 
-def main(params):
+def main(args, params):
     console.log("Getting list of files")
 
     dataPath = params["inputFiles"]["dataFile"]
     caloRegions, tauBits, egBits = trainTeacher.loadFile(dataPath)
+
+    if args.use3Channels:
+        dataGrids = np.concatenate([caloRegions, tauBits, egBits], axis=-1)
+    else:
+        dataGrids = caloRegions
 
     # fileList = utils.buildFileList(
     #     params["cicadaStudentCommon"]["fileDir"],
@@ -27,33 +35,46 @@ def main(params):
     # console.log(taubit.shape)
     # console.log(egbit.shape)
 
+    if args.use3Channels:
+        studentType = "cicadaStudentClassic"
+    else:
+        studentType = "cicadaStudentClassic_3Channel"
+
     teacher_model = cicadaStudent_classic.getTeacherModel(
-        params["cicadaStudentClassic"]["teacherModel"]
+        params[studentType]["teacherModel"],
+        studentType=studentType,
+        alpha=params["alpha"],
+        beta=params["beta"],
     )
-    student_model = cicadaStudent_classic.getModel(caloRegions.shape[1:])
+    student_model = cicadaStudent_classic.getModel(dataGrids.shape[1:])
 
     console.log("Making targets and weights")
     targets = cicadaStudent_classic.makeTargets(
         teacher_model,
-        caloRegions,
-        tauBits,
-        egBits,
+        dataGrids,
     )
 
     weights = cicadaStudent_classic.makeScoreWeights(
-        targets, params["cicadaStudentClassic"]["scoreHistogramOutput"]
+        targets, params[studentType]["scoreHistogramOutput"]
     )
 
     console.log("Training student model")
     cicadaStudent_classic.trainStudentModel(
         student_model,
-        caloRegions,
+        dataGrids,
         targets,
         weights=weights,
     )
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--use3Channels")
+
     with open("params.yaml") as theFile:
         params = yaml.safe_load(theFile)
-    main(params)
+
+    args = parser.parse_args()
+
+    main(args, params)

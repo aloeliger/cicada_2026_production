@@ -80,6 +80,11 @@ cicadaStudentClassic:
   scoreHistogramOutput: data/classicScoreHisto.h5
   ROCPlot: data/classicStudent_ROCPlot.png
 
+cicadaStudentClassic_3Channel:
+  teacherModel: data/teacher_model_3channel.keras
+  scoreHistogramOutput: data/classic3ChannelScoreHisto.h5
+  ROCPlot: data/classicStudent3Channel_ROCPlot.png
+
 cicadaStudentVAE3Channel:
   teacherModel: data/three_channel_teacher/
   scoreHistogramOutput: data/3channelScoreHisto.h5
