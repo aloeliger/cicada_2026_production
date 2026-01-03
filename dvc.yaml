@@ -49,6 +49,7 @@ stages:
     deps:
       - trainCICADA2026Teacher_VAE.py
       - data/dataFiles_output.h5
+      - src/teacher_vae.py
     params:
       - cicadaTeacherVAE3Channel
     outs:
@@ -88,7 +89,7 @@ stages:
   make_encoder_only_model:
     cmd: python3 createEncoderOnlyModel.py
     deps:
-      - src/teacher_vae
+      - src/teacher_vae.py
       - src/encoderOnlyModel.py
     params:
       - cicadaTeacherVAE3Channel

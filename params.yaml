@@ -109,7 +109,7 @@ cicadaEncoderOnly:
   "denoise",
   "conv_2",
   "flat",
-  "z_mean",
+  "z_mu",
   ]
   pythonUsabilityLayers: [
   "teacher_inputs_",

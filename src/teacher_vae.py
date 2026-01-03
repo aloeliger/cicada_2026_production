@@ -5,6 +5,7 @@ from tensorflow import keras
 console = Console()
 
 
+@keras.saving.register_keras_serializable()
 class ConstantGaussianNoise(keras.layers.GaussianNoise):
     def call(self, inputs):
         return super().call(inputs, training=True)

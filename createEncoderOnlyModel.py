@@ -4,7 +4,7 @@ from rich.console import Console
 from tensorflow import keras
 
 from src import encoderOnlyModel as em
-from src.teacher_vae import makeLossFn
+from src.teacher_vae import ConstantGaussianNoise, makeLossFn  # noqa
 
 console = Console()
 nprng = np.random.default_rng(123)
@@ -17,8 +17,8 @@ def main(params):
     teacherModelLocation = params["cicadaEncoderOnly"]["model"]
     console.log("Current Model:")
     # model = csVAE.loadTeacherModel(teacherModelLocation)
-    model = keras.model.load_model(
-        teacherModelLocation, custom_objects={"lossFn": loss_fn}
+    model = keras.saving.load_model(
+        teacherModelLocation, custom_objects={"custom_loss": loss_fn}
     )
     model.summary()
 
@@ -39,8 +39,8 @@ def main(params):
     console.log("Making Python Based Usability Model")
     pythonEncoder = em.getEncoderOnly(
         model,
-        "teacher_inputs_",
-        "z_mean",
+        "inputLayer",
+        "z_mu",
     )
     pythonEncoder.save("data/encoderOnlyModel_pythonUsability")
 
