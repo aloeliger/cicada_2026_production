@@ -242,7 +242,9 @@ def performDatasetSplitting(inputs, targets, weights=None):
     )
 
 
-def trainStudentModel(model, caloRegions, targets, weights=None):
+def trainStudentModel(
+    model, caloRegions, targets, weights=None, studentType="cicadaStudentClassic"
+):
     (
         train_caloRegions,
         val_caloRegions,
@@ -260,6 +262,11 @@ def trainStudentModel(model, caloRegions, targets, weights=None):
     )
 
     keras.utils.set_random_seed(123)
+    if studentType == "cicadaStudentClassic_3Channel":
+        model_name = "cicadaStudent_classic_3channel"
+    else:
+        model_name = "cicadaStudent_classic"
+
     model.fit(
         train_caloRegions,
         train_targets,
@@ -267,11 +274,11 @@ def trainStudentModel(model, caloRegions, targets, weights=None):
         validation_data=(val_caloRegions, val_targets, val_weights),
         callbacks=[
             keras.callbacks.ModelCheckpoint(
-                "data/cicadaStudent_classic", save_best_only=True
+                f"data/{model_name}.keras", save_best_only=True
             ),
             keras.callbacks.EarlyStopping(patience=30, restore_best_weights=True),
             keras.callbacks.ReduceLROnPlateau(patience=10),
-            keras.callbacks.CSVLogger("data/logs/classic_student_log.csv"),
+            keras.callbacks.CSVLogger("data/logs/{model_name}_log.csv"),
         ],
         sample_weight=train_weights,
         batch_size=128,

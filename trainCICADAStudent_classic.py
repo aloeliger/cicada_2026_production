@@ -65,10 +65,7 @@ def main(args, params):
 
     console.log("Training student model")
     cicadaStudent_classic.trainStudentModel(
-        student_model,
-        dataGrids,
-        targets,
-        weights=weights,
+        student_model, dataGrids, targets, weights=weights, studentType=studentType
     )
 
 
