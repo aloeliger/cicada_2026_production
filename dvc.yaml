@@ -23,6 +23,7 @@ stages:
     deps:
       - trainCICADA2026Teacher.py
       - data/dataFiles_output.h5
+      - src/trainTeacher.py
     params:
       - alpha
       - beta

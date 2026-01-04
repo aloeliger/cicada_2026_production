@@ -10,53 +10,17 @@ import cicada_2026_production.src.trainTeacher as trainTeacher
 
 @pytest.fixture
 def etGrids():
-    return np.array([[[0, 1, 2], [3, 4, 5], [6, 7, 8]]])
+    return np.ones((10, 18, 14, 1))
 
 
 @pytest.fixture
 def tauBitGrids():
-    return np.array(
-        [
-            [
-                [
-                    0,
-                    0,
-                    0,
-                ],
-                [
-                    1,
-                    1,
-                    1,
-                ],
-                [
-                    1,
-                    1,
-                    1,
-                ],
-            ]
-        ]
-    )
+    return np.ones((10, 18, 14, 1))
 
 
 @pytest.fixture
 def egBitGrids():
-    return np.array(
-        [
-            [
-                [
-                    0,
-                    0,
-                    0,
-                ],
-                [
-                    0,
-                    0,
-                    0,
-                ],
-                [1, 1, 1],
-            ]
-        ]
-    )
+    return np.ones((10, 18, 14, 1))
 
 
 # TODO, this test pases by default, and only fails on code errors
@@ -75,9 +39,9 @@ def test_make_mse_bce_loss(etGrids, tauBitGrids, egBitGrids, mocker):
 
     y_true = np.concatenate(
         [
-            etGrids.reshape((-1, 3, 3, 1)).astype(np.float64),
-            tauBitGrids.reshape((-1, 3, 3, 1)).astype(np.float64),
-            egBitGrids.reshape((-1, 3, 3, 1)).astype(np.float64),
+            etGrids.reshape((-1, 18, 14, 1)).astype(np.float64),
+            tauBitGrids.reshape((-1, 18, 14, 1)).astype(np.float64),
+            egBitGrids.reshape((-1, 18, 14, 1)).astype(np.float64),
         ],
         axis=-1,
     )

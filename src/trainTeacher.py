@@ -24,20 +24,30 @@ def loadFile(path: str) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
 def make_mse_bce_loss(alpha: float, beta: float) -> Callable:
     @keras.saving.register_keras_serializable(package="CustomLoss", name="CustomLoss")
     def mse_bse_loss(y_true: tf.Tensor, y_pred: tf.Tensor) -> tf.Tensor:
-        et_true = y_true[:, :, :, 0]
-        et_pred = y_pred[:, :, :, 0]
+        et_true = y_true[:, :, :, 0:1]
+        et_pred = y_pred[:, :, :, 0:1]
 
-        et_mse = keras.losses.MeanSquaredError()(et_true, et_pred)
+        print(et_true.shape)
+        print(et_pred.shape)
+        et_mse = keras.losses.MeanSquaredError(reduction="none")(et_true, et_pred)
+        print(et_mse.shape)
+        et_mse = tf.reduce_mean(et_mse, axis=[1, 2])
 
-        tauBit_true = y_true[:, :, :, 1]
-        tauBit_pred = y_pred[:, :, :, 1]
+        tauBit_true = y_true[:, :, :, 1:2]
+        tauBit_pred = y_pred[:, :, :, 1:2]
 
-        tauBit_bce = keras.losses.BinaryCrossentropy()(tauBit_true, tauBit_pred)
+        tauBit_bce = keras.losses.BinaryCrossentropy(reduction="none")(
+            tauBit_true, tauBit_pred
+        )
+        tauBit_bce = tf.reduce_mean(tauBit_bce, axis=[1, 2])
 
-        egBit_true = y_true[:, :, :, 2]
-        egBit_pred = y_pred[:, :, :, 2]
+        egBit_true = y_true[:, :, :, 2:3]
+        egBit_pred = y_pred[:, :, :, 2:3]
 
-        egBit_bce = keras.losses.BinaryCrossentropy()(egBit_true, egBit_pred)
+        egBit_bce = keras.losses.BinaryCrossentropy(reduction="none")(
+            egBit_true, egBit_pred
+        )
+        egBit_bce = tf.reduce_mean(egBit_bce, axis=[1, 2])
 
         return et_mse + alpha * tauBit_bce + beta * egBit_bce
 
