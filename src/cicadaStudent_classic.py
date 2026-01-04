@@ -76,9 +76,13 @@ def getTeacherModel(
     return model
 
 
-def getModel(inputShape):
+def getModel(inputShape, studentType="cicadaStudentClassic"):
     inputs = keras.layers.Input(shape=inputShape, name="student_input")
-    reshape = keras.layers.Reshape((18, 14, 1), name="reshape")(inputs)
+    if studentType == "cicadaStudentClassic_3Channel":
+        reshape = keras.layers.Reshape((18, 14, 3), name="reshape")(inputs)
+    else:
+        reshape = keras.layers.Reshape((18, 14, 1), name="reshape")(inputs)
+
     conv_1 = qkeras.QConv2D(
         4,
         (2, 2),
