@@ -278,7 +278,7 @@ def trainStudentModel(
             ),
             keras.callbacks.EarlyStopping(patience=30, restore_best_weights=True),
             keras.callbacks.ReduceLROnPlateau(patience=10),
-            keras.callbacks.CSVLogger("data/logs/{model_name}_log.csv"),
+            keras.callbacks.CSVLogger(f"data/logs/{model_name}_log.csv"),
         ],
         sample_weight=train_weights,
         batch_size=128,

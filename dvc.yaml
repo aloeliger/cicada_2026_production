@@ -69,7 +69,7 @@ stages:
       - cicadaStudentCommon
     outs:
       - data/cicadaStudent_classic.keras
-      - data/logs/classic_student_log.csv
+      - data/logs/cicadaStudent_classic_log.csv
       - data/classicScoreHisto.h5
 
   make_classic_student_3channel:
@@ -86,7 +86,7 @@ stages:
       - beta
     outs:
       - data/cicadaStudent_classic_3channel.keras
-      - data/cicadaStudent_classic_3channel_log.csv
+      - data/logs/cicadaStudent_classic_3channel_log.csv
       - data/classicScore3ChannelHisto.h5
 
   # make_3channel_vae_student:
