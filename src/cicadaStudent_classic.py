@@ -138,6 +138,12 @@ def makeTargets(teacher, dataGrids):
     # )
 
     loss = lossFn(dataGrids, teacherPredictions)
+    # print(loss)
+    # print(loss.shape)
+    if len(loss.shape) > 1:
+        axes_to_reduce = tuple(range(1, len(loss.shape)))
+        # print(axes_to_reduce)
+        loss = np.mean(loss, axis=axes_to_reduce)
 
     # print(loss)
     loss = np.clip(32.0 * np.log(loss), a_min=0.0, a_max=256.0)

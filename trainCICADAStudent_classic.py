@@ -36,16 +36,18 @@ def main(args, params):
     # console.log(egbit.shape)
 
     if args.use3Channels:
-        studentType = "cicadaStudentClassic"
-    else:
         studentType = "cicadaStudentClassic_3Channel"
+    else:
+        studentType = "cicadaStudentClassic"
 
+    console.log(f"Student type: {studentType}")
     teacher_model = cicadaStudent_classic.getTeacherModel(
         params[studentType]["teacherModel"],
         studentType=studentType,
         alpha=params["alpha"],
         beta=params["beta"],
     )
+    teacher_model.summary()
     student_model = cicadaStudent_classic.getModel(dataGrids.shape[1:])
 
     console.log("Making targets and weights")
@@ -57,6 +59,9 @@ def main(args, params):
     weights = cicadaStudent_classic.makeScoreWeights(
         targets, params[studentType]["scoreHistogramOutput"]
     )
+
+    console.log(targets.shape)
+    console.log(weights.shape)
 
     console.log("Training student model")
     cicadaStudent_classic.trainStudentModel(
@@ -70,7 +75,10 @@ def main(args, params):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--use3Channels")
+    parser.add_argument(
+        "--use3Channels",
+        action="store_true",
+    )
 
     with open("params.yaml") as theFile:
         params = yaml.safe_load(theFile)

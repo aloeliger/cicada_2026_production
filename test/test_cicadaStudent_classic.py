@@ -61,7 +61,7 @@ def testMakeTargets(mocker):
     mockTeacher.predict.return_value = 0.5 * caloRegions.reshape((-1, 18, 14, 1))
 
     def mse(y_pred, y_true):
-        return np.mean((y_pred - y_true) ** 2, axis=(1, 2, 3))
+        return (y_pred - y_true) ** 2
 
     mockTeacher.loss = mse
 
