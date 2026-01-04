@@ -78,6 +78,7 @@ def getTeacherModel(
 
 def getModel(inputShape, studentType="cicadaStudentClassic"):
     inputs = keras.layers.Input(shape=inputShape, name="student_input")
+
     if studentType == "cicadaStudentClassic_3Channel":
         reshape = keras.layers.Reshape((18, 14, 3), name="reshape")(inputs)
     else:

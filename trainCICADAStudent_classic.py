@@ -48,7 +48,10 @@ def main(args, params):
         beta=params["beta"],
     )
     teacher_model.summary()
-    student_model = cicadaStudent_classic.getModel(dataGrids.shape[1:])
+    student_model = cicadaStudent_classic.getModel(
+        dataGrids.shape[1:],
+        studentType=studentType,
+    )
 
     console.log("Making targets and weights")
     targets = cicadaStudent_classic.makeTargets(
