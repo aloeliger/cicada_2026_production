@@ -68,6 +68,7 @@ def testMakeTargets(mocker):
     targets = cicadaStudent_classic.makeTargets(
         mockTeacher,
         caloRegions,
+        lossFn=mse,
         # tauBit,
         # egBit,
     )

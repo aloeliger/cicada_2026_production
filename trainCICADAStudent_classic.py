@@ -37,8 +37,16 @@ def main(args, params):
 
     if args.use3Channels:
         studentType = "cicadaStudentClassic_3Channel"
+        lossFn = trainTeacher.make_mse_bce_loss(
+            alpha=params["alpha"], beta=params["beta"]
+        )
     else:
         studentType = "cicadaStudentClassic"
+
+        def mse(y_pred, y_true):
+            return (y_pred - y_true) ** 2
+
+        lossFn = mse
 
     console.log(f"Student type: {studentType}")
     teacher_model = cicadaStudent_classic.getTeacherModel(
@@ -54,10 +62,7 @@ def main(args, params):
     )
 
     console.log("Making targets and weights")
-    targets = cicadaStudent_classic.makeTargets(
-        teacher_model,
-        dataGrids,
-    )
+    targets = cicadaStudent_classic.makeTargets(teacher_model, dataGrids, lossFn=lossFn)
 
     weights = cicadaStudent_classic.makeScoreWeights(
         targets, params[studentType]["scoreHistogramOutput"]

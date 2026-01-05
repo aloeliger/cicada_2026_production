@@ -123,7 +123,7 @@ def getModel(inputShape, studentType="cicadaStudentClassic"):
     return model
 
 
-def makeTargets(teacher, dataGrids):
+def makeTargets(teacher, dataGrids, lossFn):
     # print(caloRegions)
     teacherPredictions = np.array(teacher.predict(dataGrids))
     lossFn = teacher.loss
