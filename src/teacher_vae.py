@@ -49,33 +49,33 @@ def makeLossFn(latent_space_units):
 
 def make_VAE_Model(latent_space_units, inputShape):
     inputLayer = keras.layers.Input(shape=inputShape, name="inputLayer")
-    normLayer = keras.layers.LayerNormalization(axis=(1, 2), name="normLayer")(
-        inputLayer
-    )
+    # normLayer = keras.layers.LayerNormalization(axis=(1, 2), name="normLayer")(
+    normLayer = keras.layers.BatchNormalization(name="normLayer")(inputLayer)
 
     conv_1 = keras.layers.Conv2D(
-        latent_space_units * 2,
+        latent_space_units // 4,
         kernel_size=3,
-        activation="leaky_relu",
+        activation="relu",
         kernel_initializer="he_normal",
         padding="same",
         name="conv_1",
     )(normLayer)
     maxPool = keras.layers.MaxPooling2D(2, name="maxPool")(conv_1)
-    denoise = keras.layers.SpatialDropout2D(0.2, name="denoise")(maxPool)
+    # denoise = keras.layers.SpatialDropout2D(0.2, name="denoise")(maxPool)
     conv_2 = keras.layers.Conv2D(
-        latent_space_units,
+        latent_space_units // 2,
         kernel_size=3,
-        activation="leaky_relu",
+        activation="relu",
         kernel_initializer="he_normal",
         padding="same",
         name="conv_2",
-    )(denoise)
+    )(maxPool)
     # flat = keras.layers.GlobalMaxPooling2D()(conv_2)
     flat = keras.layers.Flatten(name="flat")(conv_2)
+    denoise = keras.layers.Dropout(0.2)(flat)
     latent_space_size = keras.layers.Dense(
         latent_space_units,
-        activation="leaky_relu",
+        activation="relu",
         kernel_initializer="he_normal",
         name="latent_space_resizer",
     )(flat)
@@ -91,8 +91,8 @@ def make_VAE_Model(latent_space_units, inputShape):
         latent_space_units,
         activation="softplus",
         name="z_sigma",
-    )(flat)
-    z_mean = keras.layers.Dense(latent_space_units, name="z_mu")(flat)
+    )(denoise)
+    z_mean = keras.layers.Dense(latent_space_units, name="z_mu")(denoise)
 
     # do the latent space parameterization trick
     sample = keras.layers.Multiply(name="sigma_sample")([z_sigma, epsilon])
@@ -101,7 +101,7 @@ def make_VAE_Model(latent_space_units, inputShape):
     # Decoder
     decode_1 = keras.layers.Dense(
         latent_space_units * 9 * 7,
-        activation="leaky_relu",
+        activation="relu",
         kernel_initializer="he_normal",
         name="decode_1",
     )(full_latent)
@@ -110,11 +110,11 @@ def make_VAE_Model(latent_space_units, inputShape):
     )(decode_1)
     drop_1 = keras.layers.SpatialDropout2D(0.2, name="decode_denoise")(reshape)
     conv_up_1 = keras.layers.Conv2DTranspose(
-        latent_space_units * 2,
+        latent_space_units // 2,
         kernel_size=2,
         strides=2,
         padding="valid",
-        activation="leaky_relu",
+        activation="relu",
         kernel_initializer="he_normal",
         name="decode_conv_transpose",
     )(drop_1)

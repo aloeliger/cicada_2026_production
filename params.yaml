@@ -111,9 +111,10 @@ cicadaEncoderOnly:
   "normLayer",
   "conv_1",
   "maxPool",
-  "denoise",
+  #"denoise",
   "conv_2",
   "flat",
+  "dropout",
   "z_mu",
   ]
   pythonUsabilityLayers: [

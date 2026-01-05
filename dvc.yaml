@@ -88,7 +88,7 @@ stages:
     outs:
       - data/cicadaStudent_classic_3channel.keras
       - data/logs/cicadaStudent_classic_3channel_log.csv
-      - data/3channelScoreHisto.h5
+      - data/classic3ChannelScoreHisto.h5
 
   # make_3channel_vae_student:
   #   cmd: python3 trainCICADAStudent_vae_3channel.py
@@ -122,9 +122,9 @@ stages:
     cmd: python3 makeEncoderFirmware.py
     params:
       - cicadaEncoderOnly
-      - makeEncoderFirmware.py
     deps:
       - data/encoderOnlyModel
+      - makeEncoderFirmware.py
 
   #
 
@@ -151,3 +151,5 @@ stages:
   #     - data/3channel_vae_student
   #   params:
   #     - cicadaStudentVAE3Channel
+
+  # test firmware latency
