@@ -23,7 +23,11 @@ def main(params):
     vae_model = teacher_vae.make_VAE_Model(
         latent_space_units=params["cicadaTeacherVAE3Channel"]["latentSpaceSize"],
         inputShape=dataGrids.shape[1:],
+        alpha=params["alpha"],
+        beta=params["beta"],
     )
+
+    vae_model.summary()
 
     vae_model.fit(
         x=dataGrids,

@@ -53,6 +53,8 @@ stages:
       - src/teacher_vae.py
     params:
       - cicadaTeacherVAE3Channel
+      - alpha
+      - beta
     outs:
       - data/teacher_model_vae.keras
 
@@ -126,8 +128,6 @@ stages:
       - data/encoderOnlyModel
       - makeEncoderFirmware.py
 
-  #
-
   # Make evaluations
 
   # evaluate_classic_student:
@@ -153,3 +153,10 @@ stages:
   #     - cicadaStudentVAE3Channel
 
   # test firmware latency
+  copy_firmware:
+    cmd: "python3 copyScript.py encoder_only_firmware/firmware ctp7cpp/vivado_hls/src/"
+    deps:
+      - copyScript.py
+      - data/encoderOnlyModel
+
+  #TODO: Add synthesis testing?

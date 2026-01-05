@@ -110,9 +110,11 @@ cicadaEncoderOnly:
   layers: [
   "normLayer",
   "conv_1",
+  "conv_1_act",
   "maxPool",
   #"denoise",
   "conv_2",
+  "conv_2_act",
   "flat",
   "dropout",
   "z_mu",

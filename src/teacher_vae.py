@@ -1,3 +1,4 @@
+import qkeras
 import tensorflow as tf
 from rich.console import Console
 from tensorflow import keras
@@ -11,7 +12,7 @@ class ConstantGaussianNoise(keras.layers.GaussianNoise):
         return super().call(inputs, training=True)
 
 
-def makeLossFn(latent_space_units):
+def makeLossFn(latent_space_units, alpha=1.0, beta=1.0):
     def custom_loss(y_true, y_pred):
         ET_loss = tf.reduce_mean(
             keras.losses.MeanSquaredError(reduction="none")(
@@ -42,36 +43,52 @@ def makeLossFn(latent_space_units):
             mu**2 + sigma**2 - tf.math.log(sigma**1) - 1, axis=-1
         )
 
-        return ET_loss + EG_loss + tau_loss + kl_divergence
+        return ET_loss + alpha * EG_loss + beta * tau_loss + kl_divergence
 
     return custom_loss
 
 
-def make_VAE_Model(latent_space_units, inputShape):
+def make_VAE_Model(latent_space_units, inputShape, alpha=1.0, beta=1.0):
     inputLayer = keras.layers.Input(shape=inputShape, name="inputLayer")
     # normLayer = keras.layers.LayerNormalization(axis=(1, 2), name="normLayer")(
     normLayer = keras.layers.BatchNormalization(name="normLayer")(inputLayer)
 
-    conv_1 = keras.layers.Conv2D(
-        latent_space_units // 4,
+    # conv_1 = keras.layers.Conv2D(
+    #     latent_space_units // 4,
+    #     kernel_size=3,
+    #     activation="relu",
+    #     kernel_initializer="he_normal",
+    #     padding="same",
+    #     name="conv_1",
+    # )(normLayer)
+    conv_1 = qkeras.QConv2D(
+        4,
         kernel_size=3,
-        activation="relu",
-        kernel_initializer="he_normal",
         padding="same",
+        kernel_quantizer=qkeras.quantized_bits(12, 3, 1),
         name="conv_1",
     )(normLayer)
-    maxPool = keras.layers.MaxPooling2D(2, name="maxPool")(conv_1)
+    conv_1_act = qkeras.QActivation("quantized_relu(10, 6)", name="conv_1_act")(conv_1)
+    maxPool = keras.layers.MaxPooling2D(2, name="maxPool")(conv_1_act)
     # denoise = keras.layers.SpatialDropout2D(0.2, name="denoise")(maxPool)
-    conv_2 = keras.layers.Conv2D(
-        latent_space_units // 2,
+    # conv_2 = keras.layers.Conv2D(
+    #     latent_space_units // 2,
+    #     kernel_size=3,
+    #     activation="relu",
+    #     kernel_initializer="he_normal",
+    #     padding="same",
+    #     name="conv_2",
+    # )(maxPool)
+    conv_2 = qkeras.QConv2D(
+        8,
         kernel_size=3,
-        activation="relu",
-        kernel_initializer="he_normal",
         padding="same",
+        kernel_quantizer=qkeras.quantized_bits(12, 3, 1),
         name="conv_2",
     )(maxPool)
+    conv_2_act = qkeras.QActivation("quantized_relu(10, 6)", name="conv_2_act")(conv_2)
     # flat = keras.layers.GlobalMaxPooling2D()(conv_2)
-    flat = keras.layers.Flatten(name="flat")(conv_2)
+    flat = keras.layers.Flatten(name="flat")(conv_2_act)
     denoise = keras.layers.Dropout(0.2)(flat)
     latent_space_size = keras.layers.Dense(
         latent_space_units,
@@ -92,7 +109,8 @@ def make_VAE_Model(latent_space_units, inputShape):
         activation="softplus",
         name="z_sigma",
     )(denoise)
-    z_mean = keras.layers.Dense(latent_space_units, name="z_mu")(denoise)
+    # z_mean = keras.layers.Dense(latent_space_units, name="z_mu")(denoise)
+    z_mean = qkeras.QDense(latent_space_units, name="z_mu")(denoise)
 
     # do the latent space parameterization trick
     sample = keras.layers.Multiply(name="sigma_sample")([z_sigma, epsilon])
@@ -152,7 +170,7 @@ def make_VAE_Model(latent_space_units, inputShape):
     )
 
     model = keras.Model(inputs=inputLayer, outputs=outputLayer)
-    lossFn = makeLossFn(latent_space_units)
+    lossFn = makeLossFn(latent_space_units, alpha, beta)
     model.compile(loss=lossFn, optimizer="nadam")
 
     return model
