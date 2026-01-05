@@ -5,7 +5,7 @@ I recommend running this via virtual environment inside of CMSSW
 cmsrel CMSSW_15_1_0_pre1
 cd CMSSW_15_1_0_pre1/src/
 cmsenv && git cms-init
-git clone git@github.com:aloeliger/cicada_2026_production.git
+git clone git@github.com:aloeliger/cicada_2026_production.git --recursive
 cd cicada_2026_production
 python3 -m venv cicada_env
 source cicada_env/bin/activate
