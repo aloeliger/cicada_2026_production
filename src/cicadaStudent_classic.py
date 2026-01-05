@@ -8,8 +8,6 @@ from rich.progress import track
 from sklearn.model_selection import train_test_split
 from tensorflow import keras
 
-from trainTeacher import make_mse_bce_loss
-
 console = Console()
 
 
@@ -66,13 +64,14 @@ def getTeacherModel(
     alpha: float = 0.0,
     beta: float = 0.0,
 ):
-    if studentType == "cicadaStudentClassic_3Channel":
-        lossFn = make_mse_bce_loss(alpha=alpha, beta=beta)
-        model = keras.models.load_model(
-            fileLocation, custom_objects={"mse_bse_loss": lossFn}
-        )
-    else:
-        model = keras.models.load_model(fileLocation)
+    # if studentType == "cicadaStudentClassic_3Channel":
+    #     lossFn = make_mse_bce_loss(alpha=alpha, beta=beta)
+    #     model = keras.models.load_model(
+    #         fileLocation, custom_objects={"mse_bse_loss": lossFn}
+    #     )
+    # else:
+    #     model = keras.models.load_model(fileLocation)
+    model = keras.models.load_model(fileLocation)
     return model
 
 
@@ -126,7 +125,7 @@ def getModel(inputShape, studentType="cicadaStudentClassic"):
 def makeTargets(teacher, dataGrids, lossFn):
     # print(caloRegions)
     teacherPredictions = np.array(teacher.predict(dataGrids))
-    lossFn = teacher.loss
+    # lossFn = teacher.loss
     # print(teacherPredictions)
 
     # loss = np.mean(
