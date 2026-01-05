@@ -1,0 +1,4 @@
+[submodule "ctp7cpp"]
+	path = ctp7cpp
+	url = git@github.com:aloeliger/ctp7cpp.git
+	branch = cicada-2026
