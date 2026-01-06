@@ -13,7 +13,7 @@ console = Console()
 def main(args, params):
     console.log("Getting list of files")
 
-    dataPath = params["inputFiles"]["dataFile"]
+    dataPath = params["inputFiles"]["dataStudentTrainingFile"]
     caloRegions, tauBits, egBits = trainTeacher.loadFile(dataPath)
 
     if args.use3Channels:

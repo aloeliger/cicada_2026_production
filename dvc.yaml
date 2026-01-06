@@ -22,7 +22,7 @@ stages:
     cmd: python3 trainCICADA2026Teacher.py
     deps:
       - trainCICADA2026Teacher.py
-      - data/dataFiles_output.h5
+      - data/dataFiles_training_output.h5
       - src/trainTeacher.py
     params:
       - alpha
@@ -36,7 +36,7 @@ stages:
     cmd: "python3 trainCICADA2026Teacher.py --use3Channels"
     deps:
       - trainCICADA2026Teacher.py
-      - data/dataFiles_output.h5
+      - data/dataFiles_training_output.h5
     params:
       - alpha
       - beta
@@ -49,7 +49,7 @@ stages:
     cmd: python3 trainCICADA2026Teacher_VAE.py
     deps:
       - trainCICADA2026Teacher_VAE.py
-      - data/dataFiles_output.h5
+      - data/dataFiles_training_output.h5
       - src/teacher_vae.py
     params:
       - cicadaTeacherVAE3Channel
@@ -67,6 +67,7 @@ stages:
       - trainCICADAStudent_classic.py
       - src/trainTeacher.py
       - data/teacher_model.keras
+      - data/dataFiles_studentTraining_output.h5
     params:
       - cicadaStudentClassic
       - cicadaStudentCommon
@@ -82,6 +83,7 @@ stages:
       - trainCICADAStudent_classic.py
       - src/trainTeacher.py
       - data/teacher_model_3channel.keras
+      - data/dataFiles_studentTraining_output.h5
     params:
       - cicadaStudentClassic_3Channel
       - cicadaStudentCommon

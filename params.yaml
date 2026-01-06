@@ -5,6 +5,8 @@ files:
   TTFiles: /hdfs/store/user/aloelige/TT_TuneCP5_13p6TeV_powheg-pythia8/AnomalyDetectionPaper2025_TT_Winter24_01May2025
 
 inputFiles:
+  dataTrainingFile: data/dataFiles_training_output.h5
+  dataStudentTrainingFile: data/dataFiles_studentTraining_output.h5
   dataFile: data/dataFiles_output.h5
   suepFile: data/suepFiles_output.h5
   VBFFile: data/VBFHToTauTauFiles_output.h5
@@ -62,7 +64,7 @@ goodRuns:
 - 398828
 - 398860
 
-limitInputs: 100000
+limitInputs: 300000
 
 alpha: 1.0
 beta: 1.0

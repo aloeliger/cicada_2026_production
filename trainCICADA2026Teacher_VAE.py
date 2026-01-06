@@ -12,7 +12,7 @@ console = Console()
 def main(params):
     console.log("Making VAE model")
 
-    dataPath = params["inputFiles"]["dataFile"]
+    dataPath = params["inputFiles"]["dataTrainingFile"]
     caloRegions, tauBits, egBits = trainTeacher.loadFile(dataPath)
     dataGrids = np.concatenate([caloRegions, tauBits, egBits], axis=-1)
 

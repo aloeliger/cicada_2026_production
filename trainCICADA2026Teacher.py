@@ -14,7 +14,7 @@ console = Console()
 
 
 def main(params, args):
-    dataPath = params["inputFiles"]["dataFile"]
+    dataPath = params["inputFiles"]["dataTrainingFile"]
     caloRegions, tauBits, egBits = trainTeacher.loadFile(dataPath)
 
     dataGrids = caloRegions
