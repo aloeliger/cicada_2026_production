@@ -134,4 +134,13 @@ cicadaEncoderOnly:
   "enc_flatten",
   "z_mean",
   ]
-  outputModel: data/encoderOnlyModel
+  outputModel: data/encoderOnlyModel_pythonUsability.keras
+
+evaluation:
+  samples:
+    signals:
+      SUEP: suepFiles
+      VBF: VBFHToTauTauFiles
+      TT: TTFiles
+    backgrounds:
+      data: dataFiles

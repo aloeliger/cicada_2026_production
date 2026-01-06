@@ -116,7 +116,8 @@ stages:
       - cicadaTeacherVAE3Channel
       - cicadaEncoderOnly
     outs:
-      - data/encoderOnlyModel
+      - data/encoderOnlyModel.keras
+      - data/encoderOnlyModel_pythonUsability.keras
 
   # Make any firmware.
   # Encoder only
@@ -125,7 +126,8 @@ stages:
     params:
       - cicadaEncoderOnly
     deps:
-      - data/encoderOnlyModel
+      - data/encoderOnlyModel.keras
+      - data/encoderOnlyModel_pythonUsability.keras
       - makeEncoderFirmware.py
 
   # Make evaluations
@@ -157,6 +159,6 @@ stages:
     cmd: "python3 copyScript.py encoder_only_firmware/firmware ctp7cpp/vivado_hls/src/"
     deps:
       - copyScript.py
-      - data/encoderOnlyModel
+      - data/encoderOnlyModel.keras
 
   #TODO: Add synthesis testing?

@@ -1,5 +1,6 @@
 import numpy as np
 import yaml
+from qkeras import QActivation, QConv2D, QDense  # noqa
 from rich.console import Console
 from tensorflow import keras
 
@@ -18,7 +19,13 @@ def main(params):
     console.log("Current Model:")
     # model = csVAE.loadTeacherModel(teacherModelLocation)
     model = keras.saving.load_model(
-        teacherModelLocation, custom_objects={"custom_loss": loss_fn}
+        teacherModelLocation,
+        custom_objects={
+            "custom_loss": loss_fn,
+            "QConv2D": QConv2D,
+            "QDense": QDense,
+            "QActivation": QActivation,
+        },
     )
     model.summary()
 
@@ -32,7 +39,7 @@ def main(params):
     encoder = em.getRebuiltEncoder(model, params["cicadaEncoderOnly"]["layers"])
     console.log("New encoder")
     encoder.summary()
-    encoder.save("data/encoderOnlyModel")
+    encoder.save("data/encoderOnlyModel.keras")
 
     console.log("Random inputs")
 
@@ -42,7 +49,7 @@ def main(params):
         "inputLayer",
         "z_mu",
     )
-    pythonEncoder.save("data/encoderOnlyModel_pythonUsability")
+    pythonEncoder.save("data/encoderOnlyModel_pythonUsability.keras")
 
     randomET = nprng.integers(low=0, high=40, size=(1, 18, 14, 1), endpoint=True)
     randomEGBits = nprng.integers(low=0, high=1, size=(1, 18, 14, 1), endpoint=True)

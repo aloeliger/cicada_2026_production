@@ -110,7 +110,11 @@ def make_VAE_Model(latent_space_units, inputShape, alpha=1.0, beta=1.0):
         name="z_sigma",
     )(denoise)
     # z_mean = keras.layers.Dense(latent_space_units, name="z_mu")(denoise)
-    z_mean = qkeras.QDense(latent_space_units, name="z_mu")(denoise)
+    z_mean = qkeras.QDense(
+        latent_space_units,
+        name="z_mu",
+        kernel_quantizer=qkeras.quantized_bits(12, 3, 1),
+    )(denoise)
 
     # do the latent space parameterization trick
     sample = keras.layers.Multiply(name="sigma_sample")([z_sigma, epsilon])
