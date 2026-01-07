@@ -11,6 +11,8 @@ stages:
       - goodRuns
       - limitInputs
     outs:
+      - data/dataFiles_training_output.h5
+      - data/dataFiles_studentTraining_output.h5
       - data/dataFiles_output.h5
       - data/suepFiles_output.h5
       - data/VBFHToTauTauFiles_output.h5
@@ -57,6 +59,21 @@ stages:
       - beta
     outs:
       - data/teacher_model_vae.keras
+      - data/teacher_model_vae_log.csv
+
+  make_cicada_3channel_vae:
+    cmd: "python3 trainCICADA2026Teacher_VAE.py --use3Channels"
+    deps:
+      - trainCICADA2026Teacher_VAE.py
+      - data/dataFiles_training_output.h5
+      - src/teacher_vae.py
+    params:
+      - cicadaTeacherVAE3Channel
+      - alpha
+      - beta
+    outs:
+      - data/teacher_model_3channel_vae.keras
+      - data/teacher_model_3channel_vae_log.csv
 
   # Make any students or reduced models
 
