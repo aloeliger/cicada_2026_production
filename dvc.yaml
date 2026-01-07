@@ -104,8 +104,6 @@ stages:
     params:
       - cicadaStudentClassic_3Channel
       - cicadaStudentCommon
-      - alpha
-      - beta
     outs:
       - data/cicadaStudent_classic_3channel.keras
       - data/logs/cicadaStudent_classic_3channel_log.csv

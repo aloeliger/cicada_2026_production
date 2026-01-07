@@ -12,8 +12,8 @@ class ConstantGaussianNoise(keras.layers.GaussianNoise):
         return super().call(inputs, training=True)
 
 
-def makeLossFn(latent_space_units, alpha=1.0, beta=1.0):
-    def custom_loss(y_true, y_pred):
+def makeLossFn(latent_space_units, alpha=1.0, beta=1.0, use3Channels=False):
+    def custom_3Channel_loss(y_true, y_pred):
         ET_loss = tf.reduce_mean(
             keras.losses.MeanSquaredError(reduction="none")(
                 y_true[..., 0:1], y_pred[..., 0:1]
@@ -45,10 +45,34 @@ def makeLossFn(latent_space_units, alpha=1.0, beta=1.0):
 
         return ET_loss + alpha * EG_loss + beta * tau_loss + kl_divergence
 
+    def custom_loss(y_true, y_pred):
+        ET_loss = tf.reduce_mean(
+            keras.losses.MeanSquaredError(reduction="none")(
+                y_true[..., 0:1], y_pred[..., 0:1]
+            ),
+            axis=(1, 2),
+        )
+
+        mu = y_pred[:, 0, 0, 1 : 1 + latent_space_units]  # shape (batch_size, latent)
+        sigma = y_pred[
+            :, 0, 0, 1 + latent_space_units : 1 + 2 * latent_space_units
+        ]  # shape(batch_size, latent)
+        sigma = tf.clip_by_value(sigma, 1e-4, 1e20)
+
+        kl_divergence = 0.5 * tf.reduce_sum(
+            mu**2 + sigma**2 - tf.math.log(sigma**1) - 1, axis=-1
+        )
+
+        return ET_loss + kl_divergence
+
+    if use3Channels:
+        return custom_3Channel_loss
     return custom_loss
 
 
-def make_VAE_Model(latent_space_units, inputShape, alpha=1.0, beta=1.0):
+def make_VAE_Model(
+    latent_space_units, inputShape, alpha=1.0, beta=1.0, use3Channels: bool = False
+):
     inputLayer = keras.layers.Input(shape=inputShape, name="inputLayer")
     # normLayer = keras.layers.LayerNormalization(axis=(1, 2), name="normLayer")(
     normLayer = keras.layers.BatchNormalization(name="normLayer")(inputLayer)
@@ -142,23 +166,6 @@ def make_VAE_Model(latent_space_units, inputShape, alpha=1.0, beta=1.0):
     )(drop_1)
 
     # output_layers
-    ET_out = keras.layers.Conv2D(
-        1,
-        kernel_size=3,
-        padding="same",
-        activation="relu",
-        kernel_initializer="he_normal",
-        name="ET_outputs",
-    )(conv_up_1)
-
-    EG_out = keras.layers.Conv2D(
-        1, kernel_size=3, padding="same", activation="sigmoid", name="EG_outputs"
-    )(conv_up_1)
-
-    tau_out = keras.layers.Conv2D(
-        1, kernel_size=3, padding="same", activation="sigmoid", name="tau_outputs"
-    )(conv_up_1)
-
     z_mean_repeat = keras.layers.RepeatVector(252, name="mu_repeater")(z_mean)
     z_mean_reshape = keras.layers.Reshape(
         target_shape=(18, 14, latent_space_units), name="mu_repeat_reshape"
@@ -169,12 +176,35 @@ def make_VAE_Model(latent_space_units, inputShape, alpha=1.0, beta=1.0):
         target_shape=(18, 14, latent_space_units), name="sigma_repeat_reshape"
     )(z_sigma_repeat)
 
-    outputLayer = keras.layers.Concatenate(name="full_output")(
-        [ET_out, EG_out, tau_out, z_mean_reshape, z_sigma_reshape]
-    )
+    ET_out = keras.layers.Conv2D(
+        1,
+        kernel_size=3,
+        padding="same",
+        activation="relu",
+        kernel_initializer="he_normal",
+        name="ET_outputs",
+    )(conv_up_1)
+
+    if use3Channels:
+        EG_out = keras.layers.Conv2D(
+            1, kernel_size=3, padding="same", activation="sigmoid", name="EG_outputs"
+        )(conv_up_1)
+
+        tau_out = keras.layers.Conv2D(
+            1, kernel_size=3, padding="same", activation="sigmoid", name="tau_outputs"
+        )(conv_up_1)
+
+        outputLayer = keras.layers.Concatenate(name="full_output")(
+            [ET_out, EG_out, tau_out, z_mean_reshape, z_sigma_reshape]
+        )
+
+    else:
+        outputLayer = keras.layers.Concatenate(name="full_ouput")(
+            [ET_out, z_mean_reshape, z_sigma_reshape]
+        )
 
     model = keras.Model(inputs=inputLayer, outputs=outputLayer)
-    lossFn = makeLossFn(latent_space_units, alpha, beta)
+    lossFn = makeLossFn(latent_space_units, alpha, beta, use3Channels)
     model.compile(loss=lossFn, optimizer="nadam")
 
     return model
