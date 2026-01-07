@@ -30,14 +30,15 @@ def main(params, args):
         inputShape=dataGrids.shape[1:],
         alpha=params["alpha"],
         beta=params["beta"],
+        use3Channels=args.use3Channels,
     )
 
     vae_model.summary()
 
     if args.use3Channels:
-        model_name = "teacher_model_vae"
-    else:
         model_name = "teacher_model_3channel_vae"
+    else:
+        model_name = "teacher_model_vae"
 
     vae_model.fit(
         x=dataGrids,
