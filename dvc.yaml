@@ -176,19 +176,27 @@ stages:
     deps:
       - src/utils.py
       - src/evaluateModels.py
-      -
+      - data/cicadaStudent_classic.keras
+    params:
+      - evaluation
 
   evaluate_threeChannel_classic_student:
     cmd: "python3 evaluateModel.py --threeChannelClassicStudent"
     deps:
       - src/utils.py
       - src/evaluateModels.py
+      - data/cicadaStudent_classic_3channel.keras
+    params:
+      - evaluation
 
   evaluate_threeChannel_VAE:
     cmd: "python3 evaluateModel.py --oneChannelVAE"
     deps:
       - src/utils.py
       - src/evaluateModels.py
+      - data/encoderOnlyModel_pythonUsability.keras
+    params:
+      - evaluation
 
   # test firmware latency
   copy_firmware:
