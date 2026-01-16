@@ -171,6 +171,25 @@ stages:
   #   params:
   #     - cicadaStudentVAE3Channel
 
+  evaluate_classic_student:
+    cmd: "python3 evaluateModel.py --classicStudent"
+    deps:
+      - src/utils.py
+      - src/evaluateModels.py
+      -
+
+  evaluate_threeChannel_classic_student:
+    cmd: "python3 evaluateModel.py --threeChannelClassicStudent"
+    deps:
+      - src/utils.py
+      - src/evaluateModels.py
+
+  evaluate_threeChannel_VAE:
+    cmd: "python3 evaluateModel.py --oneChannelVAE"
+    deps:
+      - src/utils.py
+      - src/evaluateModels.py
+
   # test firmware latency
   copy_firmware:
     cmd: "python3 copyScript.py encoder_only_firmware/firmware ctp7cpp/vivado_hls/src/"

@@ -24,7 +24,7 @@ def main(params, args) -> None:
     def OneChannelInputFunction(caloRegions, egBits, tauBits):
         return caloRegions
 
-    if args.model_style_group.threeChannelVAE:
+    if args.model_style_group.oneChannelVAE:
         model = keras.models.load_model(
             "encoderOnlyModel_pythonUsability.keras",
         )
@@ -33,7 +33,7 @@ def main(params, args) -> None:
             scores = np.sum(np.array(y_pred) * np.array(y_pred), axis=1)
             return scores
 
-        inputFn = ThreeChannelInputFunction
+        inputFn = OneChannelInputFunction
         scoreFn = summed_square_scores
     elif args.model_style_group.threeChannelClassicStudent:
         model = keras.models.load_model("cicadaStudent_classic_3channel.keras")
@@ -96,7 +96,7 @@ if __name__ == "__main__":
 
     model_style_group.add_argument("--classicStudent", action="store_true")
     model_style_group.add_argument("--threeChannelClassicStudent", action="store_true")
-    model_style_group.add_argument("--threeChannelVAE", action="store_true")
+    model_style_group.add_argument("--oneChannelVAE", action="store_true")
 
     with open("params.yaml") as theFile:
         params = yaml.safe_load(theFile)
