@@ -24,7 +24,7 @@ def getEncoderFromLayerList(model, layerList):
 
 def getRebuiltEncoder(model, layerList):
     newSequentialLayers = keras.Sequential(name="EncoderOnly")
-    newSequentialLayers.add(keras.layers.Input(shape=(18, 14, 3), name="new_input"))
+    newSequentialLayers.add(keras.layers.Input(shape=(18, 14, 1), name="new_input"))
     # originalModelLayers = []
     # for layerName in layerList:
     #     originalModelLayers.append(

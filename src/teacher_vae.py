@@ -75,7 +75,12 @@ def make_VAE_Model(
 ):
     inputLayer = keras.layers.Input(shape=inputShape, name="inputLayer")
     # normLayer = keras.layers.LayerNormalization(axis=(1, 2), name="normLayer")(
-    normLayer = keras.layers.BatchNormalization(name="normLayer")(inputLayer)
+    if use3Channels:
+        reshapeLayer = keras.layers.Reshape((18, 14, 3), name="reshape")(inputLayer)
+    else:
+        reshapeLayer = keras.layers.Reshape((18 * 14 * 1), name="reshape")(inputLayer)
+
+    normLayer = keras.layers.BatchNormalization(name="normLayer")(reshapeLayer)
 
     # conv_1 = keras.layers.Conv2D(
     #     latent_space_units // 4,

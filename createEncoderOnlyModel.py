@@ -52,10 +52,11 @@ def main(params):
     pythonEncoder.save("data/encoderOnlyModel_pythonUsability.keras")
 
     randomET = nprng.integers(low=0, high=40, size=(1, 18, 14, 1), endpoint=True)
-    randomEGBits = nprng.integers(low=0, high=1, size=(1, 18, 14, 1), endpoint=True)
-    randomTauBits = nprng.integers(low=0, high=1, size=(1, 18, 14, 1), endpoint=True)
+    # randomEGBits = nprng.integers(low=0, high=1, size=(1, 18, 14, 1), endpoint=True)
+    # randomTauBits = nprng.integers(low=0, high=1, size=(1, 18, 14, 1), endpoint=True)
 
-    randomInput = np.stack([randomET, randomEGBits, randomTauBits], axis=3)
+    # randomInput = np.stack([randomET, randomEGBits, randomTauBits], axis=3)
+    randomInput = randomET
     predictions = pythonEncoder.predict(randomInput)
     predictions = np.array(predictions)
     console.log(predictions)
