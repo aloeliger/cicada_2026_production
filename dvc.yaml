@@ -205,4 +205,8 @@ stages:
       - copyScript.py
       - data/encoderOnlyModel.keras
 
+  firmware_synthesis:
+    cmd: "sh doSynthesis.sh"
+    deps:
+      - data/encoderOnlyModel.keras
   #TODO: Add synthesis testing?
