@@ -141,8 +141,8 @@ cicadaEncoderOnly:
 evaluation:
   samples:
     signals:
-      SUEP: suepFiles
-      VBF: VBFHToTauTauFiles
-      TT: TTFiles
+      SUEP: suepFile
+      VBF: VBFFile
+      TT: TTFile
     backgrounds:
-      data: dataFiles
+      data: dataFile

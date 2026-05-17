@@ -2,7 +2,7 @@ import argparse
 
 import numpy as np
 import yaml
-from qkeras import QActivation, QConv2D
+from qkeras import QActivation, QConv2D, QDense, QDenseBatchnorm, quantized_bits
 from rich.console import Console
 from tensorflow import keras
 
@@ -25,13 +25,17 @@ def main(params, args) -> None:
     def OneChannelInputFunction(caloRegions, egBits, tauBits):
         return caloRegions
 
+    custom_objects = {
+        "QConv2D": QConv2D,
+        "QActivation": QActivation,
+        "quantized_bits": quantized_bits,
+        "QDenseBatchnorm": QDenseBatchnorm,
+        "QDense": QDense,
+    }
     if args.oneChannelVAE:
         model = keras.models.load_model(
             "data/encoderOnlyModel_pythonUsability.keras",
-            custom_objects={
-                "QConv2D": QConv2D,
-                "QActivation": QActivation,
-            },
+            custom_objects=custom_objects,
         )
 
         def summed_square_scores(y_pred):
@@ -43,20 +47,14 @@ def main(params, args) -> None:
     elif args.threeChannelClassicStudent:
         model = keras.models.load_model(
             "data/cicadaStudent_classic_3channel.keras",
-            custom_objects={
-                "QConv2D": QConv2D,
-                "QActivation": QActivation,
-            },
+            custom_objects=custom_objects,
         )
         inputFn = ThreeChannelInputFunction
         scoreFn = trivialScoreFunction
     else:
         model = keras.models.load_model(
             "data/cicadaStudent_classic.keras",
-            custom_objects={
-                "QConv2D": QConv2D,
-                "QActivation": QActivation,
-            },
+            custom_objects=custom_objects,
         )
         inputFn = OneChannelInputFunction
         scoreFn = trivialScoreFunction

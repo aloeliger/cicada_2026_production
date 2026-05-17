@@ -14,7 +14,8 @@ def loadInputsToDict(params, inputFn, background=False):
 
     inputs = {}
     for sampleName in samples:
-        fileName = samples[sampleName]
+        fileKey = samples[sampleName]
+        fileName = params["inputFiles"][fileKey]
         etGrid, tauBits, egBits = trainTeacher.loadFile(fileName)
         inputGrid = inputFn(etGrid, egBits, tauBits)
         inputs[sampleName] = inputGrid

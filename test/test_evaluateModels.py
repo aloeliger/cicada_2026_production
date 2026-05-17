@@ -10,7 +10,10 @@ import cicada_2026_production.src.evaluateModels as evaluateModels
 
 @pytest.fixture
 def mockParams():
-    return {"evaluation": {"samples": {"backgrounds": {"dummy": "dummyFile.h5"}}}}
+    return {
+        "evaluation": {"samples": {"backgrounds": {"dummy": "DummySampleName"}}},
+        "inputFiles": {"DummySampleName": "dummy.h5"},
+    }
 
 
 def test_loadInputsToDict(mocker, mockParams):
