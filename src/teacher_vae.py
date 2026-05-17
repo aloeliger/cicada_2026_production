@@ -78,7 +78,7 @@ def make_VAE_Model(
     if use3Channels:
         reshapeLayer = keras.layers.Reshape((18, 14, 3), name="reshape")(inputLayer)
     else:
-        reshapeLayer = keras.layers.Reshape((18 * 14 * 1), name="reshape")(inputLayer)
+        reshapeLayer = keras.layers.Reshape((18, 14, 1), name="reshape")(inputLayer)
 
     normLayer = keras.layers.BatchNormalization(name="normLayer")(reshapeLayer)
 
